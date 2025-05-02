@@ -1,0 +1,2 @@
+enMovement();
+applyGravity();
