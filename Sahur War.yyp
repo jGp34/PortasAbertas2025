@@ -8,7 +8,7 @@
     "children":[],
     "name":"Default",
   },
-  "defaultScriptType":0,
+  "defaultScriptType":1,
   "Folders":[
     {"$GMFolder":"","%Name":"Animation Curves","folderPath":"folders/Animation Curves.yy","name":"Animation Curves","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Extensions","folderPath":"folders/Extensions.yy","name":"Extensions","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -39,9 +39,11 @@
   "resources":[
     {"id":{"name":"oEnemy","path":"objects/oEnemy/oEnemy.yy",},},
     {"id":{"name":"oFire","path":"objects/oFire/oFire.yy",},},
+    {"id":{"name":"oGameController","path":"objects/oGameController/oGameController.yy",},},
     {"id":{"name":"oGround","path":"objects/oGround/oGround.yy",},},
     {"id":{"name":"oObstacle","path":"objects/oObstacle/oObstacle.yy",},},
     {"id":{"name":"oRoute","path":"objects/oRoute/oRoute.yy",},},
+    {"id":{"name":"oSpawner","path":"objects/oSpawner/oSpawner.yy",},},
     {"id":{"name":"oSpike","path":"objects/oSpike/oSpike.yy",},},
     {"id":{"name":"oTung","path":"objects/oTung/oTung.yy",},},
     {"id":{"name":"oWall","path":"objects/oWall/oWall.yy",},},
@@ -53,6 +55,7 @@
     {"id":{"name":"sFire","path":"sprites/sFire/sFire.yy",},},
     {"id":{"name":"sGround","path":"sprites/sGround/sGround.yy",},},
     {"id":{"name":"sInvisible","path":"sprites/sInvisible/sInvisible.yy",},},
+    {"id":{"name":"sSpawner","path":"sprites/sSpawner/sSpawner.yy",},},
     {"id":{"name":"sTung","path":"sprites/sTung/sTung.yy",},},
     {"id":{"name":"sWall","path":"sprites/sWall/sWall.yy",},},
   ],
