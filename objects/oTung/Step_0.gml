@@ -1,3 +1,0 @@
-inputCheck();
-movement();
-applyGravity();

@@ -5,14 +5,14 @@ function inputCheck(){
 	
 	move = key_right - key_left;
 	
-	horz_speed = move * tungValues.walkSpeed;
+	horz_speed = move * playerValues.walkSpeed;
 	//show_debug_message(string(horz_speed)); //AI PAI PARA
 }
 
 function movement(){
 	
 	if (key_jump && place_meeting(x, y + 1, oObstacle)){
-		vert_speed = vert_speed - tungValues.jumpSpeed;
+		vert_speed = vert_speed - playerValues.jumpSpeed;
 	}
 	
 	if (place_meeting(x + horz_speed, y, oObstacle)){

@@ -1,0 +1,3 @@
+inputCheck();
+movement();
+applyGravity();
