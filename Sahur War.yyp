@@ -38,6 +38,7 @@
   "name":"Sahur War",
   "resources":[
     {"id":{"name":"oEnemy","path":"objects/oEnemy/oEnemy.yy",},},
+    {"id":{"name":"oEnragedEnemy","path":"objects/oEnragedEnemy/oEnragedEnemy.yy",},},
     {"id":{"name":"oFire","path":"objects/oFire/oFire.yy",},},
     {"id":{"name":"oGameController","path":"objects/oGameController/oGameController.yy",},},
     {"id":{"name":"oGround","path":"objects/oGround/oGround.yy",},},

@@ -8,12 +8,19 @@ for (var i = 0; i < count; i++) {
     array_push(ground_list, [spawn_x, spawn_y]);
 }
 
-if (array_length(ground_list) > 0) {
-    var index = irandom(array_length(ground_list) - 1);
-    var chosen_pos = ground_list[index];
+ground_list = array_shuffle(ground_list);
 
-    x = clamp(chosen_pos[0], 0, room_width - sprite_width);
-    y = clamp(chosen_pos[1], 0, room_height - sprite_height);
+var found = false;
+for (var i = 0; i < array_length(ground_list); i++) {
+    var pos = ground_list[i];
+    var test_x = clamp(pos[0], 0, room_width - sprite_width);
+    var test_y = clamp(pos[1], 0, room_height - sprite_height);
+    
+    x = test_x;
+    y = test_y;
+    
+    if (!place_meeting(x, y, oSpawner) && !instance_place(x, y, object_index)) {
+        found = true;
+        break;
+    }
 }
-
-depth = 10;
