@@ -63,6 +63,7 @@ function applyGravity(){
 function attack(){
 	if (can_attack && key_attack) {
 		can_attack = false;
+		audio_play_sound(sfxTungAttack, 1, false)
 		attack_timer = attack_cooldown; 
 		
 		var _attack_offset = 45;

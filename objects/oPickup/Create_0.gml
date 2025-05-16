@@ -19,7 +19,7 @@ for (var i = 0; i < array_length(ground_list); i++) {
     x = test_x;
     y = test_y;
     
-    if (!place_meeting(x, y, oSpawner) && !instance_place(x, y, object_index)) {
+    if (!place_meeting(x, y, oSpawner) && !instance_place(x, y, object_index) && !place_meeting(x, y, oPlayer)) {
         found = true;
         break;
     }
