@@ -14,4 +14,11 @@ function enMovement(){
 	}
 	
 	x = x + horz_speed;
+	
+	if (horz_speed > 0) {
+		image_xscale = 1;
+	}
+	else if (horz_speed < 0) {
+		image_xscale = -1;
+	}
 }
