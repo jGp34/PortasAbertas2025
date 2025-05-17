@@ -1,0 +1,1 @@
+audio_play_sound(sfxBigEnemyDeath, 1, false);
