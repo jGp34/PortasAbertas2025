@@ -1,20 +1,19 @@
 {
   "$GMObject":"",
-  "%Name":"oUdin",
+  "%Name":"oUdinAttack",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"oUdin",
+  "name":"oUdinAttack",
   "overriddenProperties":[],
   "parent":{
-    "name":"characters",
-    "path":"folders/Objects/characters.yy",
+    "name":"attack",
+    "path":"folders/Objects/attack.yy",
   },
   "parentObjectId":{
-    "name":"oPlayer",
-    "path":"objects/oPlayer/oPlayer.yy",
+    "name":"oAttack",
+    "path":"objects/oAttack/oAttack.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -34,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sUdin",
-    "path":"sprites/sUdin/sUdin.yy",
+    "name":"sAttackUdin",
+    "path":"sprites/sAttackUdin/sAttackUdin.yy",
   },
   "spriteMaskId":null,
   "visible":true,

@@ -10,8 +10,8 @@
   "name":"oAttack",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objects",
-    "path":"folders/Objects.yy",
+    "name":"attack",
+    "path":"folders/Objects/attack.yy",
   },
   "parentObjectId":null,
   "persistent":false,
@@ -32,8 +32,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sAttack",
-    "path":"sprites/sAttack/sAttack.yy",
+    "name":"sAttackTung",
+    "path":"sprites/sAttackTung/sAttackTung.yy",
   },
   "spriteMaskId":null,
   "visible":true,
