@@ -1,0 +1,1 @@
+audio_play_sound(sfxFloatingEnemyDeath, 1, false);
