@@ -71,6 +71,24 @@ function saturno_attack(){
 	attack_counter();
 }
 
+function bombardino_attack(){
+	if (can_attack && key_attack && vert_speed != 0) {
+		can_attack = false;
+		audio_play_sound(sfxBombardinoAttack, 1, false)
+		attack_timer = attack_cooldown; 
+		
+		var _attack_offset = 0;
+		var _attack_x = x;
+		var _attack_y = y + 48;
+		
+		var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oBombardinoAttack);		
+		_attack_instance.direction = attack_direction;
+		
+	}
+	
+	attack_counter();
+}
+
 function attack_counter(){
 	if (!can_attack) {
 		attack_timer -= 1;
