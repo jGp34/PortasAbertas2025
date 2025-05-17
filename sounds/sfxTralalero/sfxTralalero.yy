@@ -12,8 +12,8 @@
   "duration":1.8240136,
   "name":"sfxTralalero",
   "parent":{
-    "name":"Sounds",
-    "path":"folders/Sounds.yy",
+    "name":"characters",
+    "path":"folders/Sounds/characters.yy",
   },
   "preload":false,
   "resourceType":"GMSound",

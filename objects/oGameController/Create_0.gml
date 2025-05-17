@@ -1,7 +1,7 @@
 global.timer = 0;
 global.pickup_count = 0;
 global.enraged_enemy_queue = 0;
-global.character_list = [oTung, oTralalero]
+global.character_list = [oTung, oTralalero, oBombardino, oPatapim, oAssassino, oBallerina, oBoneca, oChimpanzini, oFruli, oGlorbo, oLirili, oSaturno, oTripi, oUdin]
 randomize();
 instance_create_layer(0, 0, "Instances", oPickup);
 audio_play_sound(mGame, 1, true);

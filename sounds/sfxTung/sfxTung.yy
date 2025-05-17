@@ -12,8 +12,8 @@
   "duration":3.0,
   "name":"sfxTung",
   "parent":{
-    "name":"Sounds",
-    "path":"folders/Sounds.yy",
+    "name":"characters",
+    "path":"folders/Sounds/characters.yy",
   },
   "preload":false,
   "resourceType":"GMSound",

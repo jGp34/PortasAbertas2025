@@ -12,8 +12,8 @@
   "duration":0.5040136,
   "name":"sfxTungAttack",
   "parent":{
-    "name":"Sounds",
-    "path":"folders/Sounds.yy",
+    "name":"attack",
+    "path":"folders/Sounds/attack.yy",
   },
   "preload":false,
   "resourceType":"GMSound",
