@@ -53,6 +53,23 @@ function udin_attack(){
 	attack_counter();
 }
 
+function saturno_attack(){
+	if (can_attack && key_attack) {
+		can_attack = false;
+		audio_play_sound(sfxSaturnoAttack, 1, false)
+		attack_timer = attack_cooldown; 
+		
+		var _attack_offset = 32;
+		var _attack_x = x + (_attack_offset * attack_direction);
+		var _attack_y = y + 32;
+		
+		var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oSaturnoAttack);		
+		_attack_instance.direction = attack_direction;
+		
+	}
+	
+	attack_counter();
+}
 
 function attack_counter(){
 	if (!can_attack) {
