@@ -1,2 +1,4 @@
-event_inherited();
+inputCheck();
+movement();
+applyGravity();
 tung_attack();

@@ -16,10 +16,7 @@
     "name":"attack",
     "path":"folders/Objects/attack.yy",
   },
-  "parentObjectId":{
-    "name":"oAttack",
-    "path":"objects/oAttack/oAttack.yy",
-  },
+  "parentObjectId":null,
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
