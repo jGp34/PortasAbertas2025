@@ -1,4 +1,3 @@
 inputCheck();
 movement();
 applyGravity();
-attack();

@@ -1,4 +1,2 @@
-inputCheck();
-movement();
-applyGravity();
+event_inherited();
 fruli_attack();
