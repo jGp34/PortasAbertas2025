@@ -136,7 +136,6 @@
     {"id":{"name":"sfxUdin","path":"sounds/sfxUdin/sfxUdin.yy",},},
     {"id":{"name":"sfxUdinAttack","path":"sounds/sfxUdinAttack/sfxUdinAttack.yy",},},
     {"id":{"name":"sAssassino","path":"sprites/sAssassino/sAssassino.yy",},},
-    {"id":{"name":"sAttack","path":"sprites/sAttack/sAttack.yy",},},
     {"id":{"name":"sAttackAssassino","path":"sprites/sAttackAssassino/sAttackAssassino.yy",},},
     {"id":{"name":"sAttackBallerina","path":"sprites/sAttackBallerina/sAttackBallerina.yy",},},
     {"id":{"name":"sAttackBombardino","path":"sprites/sAttackBombardino/sAttackBombardino.yy",},},
