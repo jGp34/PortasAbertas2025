@@ -9,7 +9,7 @@
   "bitRate":128,
   "compression":0,
   "conversionMode":0,
-  "duration":3.0720181,
+  "duration":2.2320182,
   "name":"sfxFloatingEnemyDeath",
   "parent":{
     "name":"Sounds",
@@ -21,5 +21,5 @@
   "sampleRate":44100,
   "soundFile":"sfxFloatingEnemyDeath.mp3",
   "type":0,
-  "volume":0.6,
+  "volume":1.0,
 }
