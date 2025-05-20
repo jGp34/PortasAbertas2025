@@ -191,9 +191,9 @@ function tralalero_attack(){
         audio_play_sound(sfxTralaleroAttack, 1, false)
         attack_timer = attack_cooldown; 
         
-        var _attack_offset = 16;
+        var _attack_offset = 32;
         var _attack_x = x + (_attack_offset * attack_direction);
-        var _attack_y = y + 16;
+        var _attack_y = y + 24;
         
         var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oTralaleroAttack);    
         _attack_instance.attack_dir = attack_direction;
@@ -292,7 +292,7 @@ function ballerina_attack(){
         audio_play_sound(sfxBallerinaAttack, 1, false)
         attack_timer = attack_cooldown; 
         
-        var _attack_offset = 8;
+        var _attack_offset = 16;
         var _attack_x = x + (_attack_offset * attack_direction);
         var _attack_y = y + 16;
         
@@ -301,6 +301,14 @@ function ballerina_attack(){
 		_attack_instance.horizontal_speed = 8 * attack_direction;
 		_attack_instance.direction = attack_direction;
 		_attack_instance.image_xscale = (attack_direction == 1) ? -1 : 1;
+		
+		var _attack_x2 = x + (_attack_offset * 1.5 * attack_direction);
+		var _attack_instance = instance_create_layer(_attack_x2, _attack_y, "Instances", oBallerinaAttack);    
+        _attack_instance.attack_dir = attack_direction;
+		_attack_instance.horizontal_speed = 4 * attack_direction;
+		_attack_instance.direction = attack_direction;
+		_attack_instance.image_xscale = (attack_direction == 1) ? -1 : 1;
+		
     }
     
     attack_counter();
@@ -312,14 +320,46 @@ function boneca_attack() {
         audio_play_sound(sfxBonecaAttack, 1, false);
         attack_timer = attack_cooldown;
 
-        // Destroy existing boneca attack if one exists
         with (oBonecaAttack) {
             instance_destroy();
         }
 
-        var _attack_offset = 64;
-        var _attack_x = x + (_attack_offset * attack_direction);
-        var _attack_y = y;
+        var base_x = x;
+        var base_y = y + sprite_height / 2;
+
+        var found_spot = false;
+        var max_nudge = 32;
+        var nudge_step = 2;
+
+        var attack_w = sprite_width;
+        var attack_h = sprite_height;
+
+        if (!collision_rectangle(base_x - attack_w/2, base_y - attack_h/2,
+                                 base_x + attack_w/2, base_y + attack_h/2, oObstacle, false, true)) {
+            var _attack_x = base_x;
+            var _attack_y = base_y;
+            found_spot = true;
+        } else {
+            for (var r = nudge_step; r <= max_nudge; r += nudge_step) {
+                for (var a = 0; a < 360; a += 30) {
+                    var dx = lengthdir_x(r, a);
+                    var dy = lengthdir_y(r, a);
+                    var test_x = base_x + dx;
+                    var test_y = base_y + dy;
+
+                    if (!collision_rectangle(test_x - attack_w/2, test_y - attack_h/2,
+                                             test_x + attack_w/2, test_y + attack_h/2, oObstacle, false, true)) {
+                        _attack_x = test_x;
+                        _attack_y = test_y;
+                        found_spot = true;
+                        break;
+                    }
+                }
+                if (found_spot) break;
+            }
+        }
+
+        if (!found_spot) return;
 
         var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oBonecaAttack, {
             attack_dir: attack_direction,
@@ -331,6 +371,8 @@ function boneca_attack() {
 
     attack_counter();
 }
+
+
 
 function attack_counter(){
 	if (!can_attack) {

@@ -1,3 +1,4 @@
 inputCheck();
 movement();
 applyGravity();
+scDebug();
