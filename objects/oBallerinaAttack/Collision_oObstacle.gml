@@ -1,1 +1,2 @@
-instance_destroy();
+if(has_bounced)
+	instance_destroy();
