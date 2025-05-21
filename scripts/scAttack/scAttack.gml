@@ -4,7 +4,7 @@ function tung_attack(){
 		audio_play_sound(sfxTungAttack, 1, false)
 		attack_timer = attack_cooldown; 
 		
-		var _attack_offset = 45;
+		var _attack_offset = 68;
 		var _attack_x = x + (_attack_offset * attack_direction);
 		var _attack_y = y + 24;
 		
@@ -45,9 +45,9 @@ function udin_attack(){
 		audio_play_sound(sfxUdinAttack, 1, false)
 		attack_timer = attack_cooldown; 
 		
-		var _attack_offset = 64;
+		var _attack_offset = 86;
 		var _attack_x = x + (_attack_offset * attack_direction);
-		var _attack_y = y + 24;
+		var _attack_y = y + 38;
 		
 		var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oUdinAttack);		
 		_attack_instance.direction = attack_direction;
@@ -76,18 +76,31 @@ function saturno_attack(){
 }
 
 function bombardino_attack(){
-	if (can_attack && key_attack && vert_speed != 0) {
+	if (can_attack && key_attack) {
 		can_attack = false;
-		audio_play_sound(sfxBombardinoAttack, 1, false)
 		attack_timer = attack_cooldown; 
+		if(vert_speed != 0){
+			audio_play_sound(sfxBombardinoAttack, 1, false)
 		
-		var _attack_offset = 0;
-		var _attack_x = x;
-		var _attack_y = y + 48;
+			var _attack_offset = 0;
+			var _attack_x = x;
+			var _attack_y = y + 48;
 		
-		var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oBombardinoAttack);		
-		_attack_instance.direction = attack_direction;
-		_attack_instance.image_xscale = (attack_direction == 1) ? -1 : 1;
+			var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oBombardinoAttack);		
+			_attack_instance.direction = attack_direction;
+			_attack_instance.image_xscale = (attack_direction == 1) ? -1 : 1;
+		}
+		else{
+			audio_play_sound(sfxBombardinoAttack2, 1, false)
+		
+			var _attack_offset = 44;
+			var _attack_x = x + (_attack_offset * attack_direction);
+			var _attack_y = y + 24;
+		
+			var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oBombardinoAttack2);
+			_attack_instance.direction = attack_direction;
+			_attack_instance.image_xscale = (attack_direction == 1) ? -1 : 1;
+		}
 	}
 	
 	attack_counter();
@@ -211,9 +224,9 @@ function tripi_attack(){
         audio_play_sound(sfxTripiAttack, 1, false)
         attack_timer = attack_cooldown; 
         
-        var _attack_offset = 32;
+        var _attack_offset = 36;
         var _attack_x = x + (_attack_offset * attack_direction);
-        var _attack_y = y + 8;
+        var _attack_y = y + 18;
         
         var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oTripiAttack);    
         _attack_instance.attack_dir = attack_direction;
@@ -389,7 +402,7 @@ function patapim_attack(){
         audio_play_sound(sfxPatapimAttack, 1, false)
         attack_timer = attack_cooldown; 
         
-        var _attack_offset = 12;
+        var _attack_offset = 14;
         var _attack_x = x + (_attack_offset * attack_direction);
         var _attack_y = y + 24;
         

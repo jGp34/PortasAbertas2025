@@ -1,2 +1,2 @@
 depth = 15;
-lifetime = 10;
+lifetime = 12;

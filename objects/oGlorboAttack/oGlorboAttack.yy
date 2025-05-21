@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sTralaleroAttack",
-    "path":"sprites/sTralaleroAttack/sTralaleroAttack.yy",
+    "name":"sGlorboAttack",
+    "path":"sprites/sGlorboAttack/sGlorboAttack.yy",
   },
   "spriteMaskId":null,
   "visible":true,

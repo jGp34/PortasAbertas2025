@@ -1,3 +1,3 @@
-gravity = 0.25;
+gravity = 0.60;
 depth = 15;
 radius = 160;
