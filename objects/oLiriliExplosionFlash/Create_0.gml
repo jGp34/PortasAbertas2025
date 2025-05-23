@@ -1,2 +1,2 @@
-radius = 96;
+radius = 100;
 life = 5;

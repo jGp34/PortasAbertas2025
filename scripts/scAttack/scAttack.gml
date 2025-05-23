@@ -460,7 +460,7 @@ function garam_attack() {
 		attack_timer = attack_cooldown;
 
 		// Attack 1 (Forward melee)
-		var offset1 = 34;
+		var offset1 = 42;
 		var ax1 = x + (offset1 * attack_direction);
 		var ay1 = y + 20;
 
