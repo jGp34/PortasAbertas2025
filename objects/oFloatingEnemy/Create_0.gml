@@ -1,7 +1,4 @@
-enValues = {
-	speed: 3 // Adjust to control movement speed
-};
-
-hspd = choose(-1, 1) * enValues.speed;
-vspd = choose(-1, 1) * enValues.speed;
+speed_ = 3
+hspd = choose(-1, 1) * speed_;
+vspd = choose(-1, 1) * speed_;
 depth = -10;

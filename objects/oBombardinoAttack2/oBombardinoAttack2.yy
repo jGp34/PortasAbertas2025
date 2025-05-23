@@ -32,8 +32,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sBombardinoAttack2",
-    "path":"sprites/sBombardinoAttack2/sBombardinoAttack2.yy",
+    "name":"sAttackBombardino2",
+    "path":"sprites/sAttackBombardino2/sAttackBombardino2.yy",
   },
   "spriteMaskId":null,
   "visible":true,

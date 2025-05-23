@@ -1,8 +1,4 @@
-enValues = {
-	walkSpeed : 2,
-	jumpSpeed : 16
-}
-
+speed_ = 2;
 horz_speed = 0;
 vert_speed = 0;
 grav = 0.7;

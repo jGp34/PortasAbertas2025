@@ -32,8 +32,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sSvininoAttack",
-    "path":"sprites/sSvininoAttack/sSvininoAttack.yy",
+    "name":"sAttackSvinino",
+    "path":"sprites/sAttackSvinino/sAttackSvinino.yy",
   },
   "spriteMaskId":null,
   "visible":true,

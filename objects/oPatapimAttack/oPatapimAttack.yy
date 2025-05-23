@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sPatapimAttack",
-    "path":"sprites/sPatapimAttack/sPatapimAttack.yy",
+    "name":"sAttackPatapim",
+    "path":"sprites/sAttackPatapim/sAttackPatapim.yy",
   },
   "spriteMaskId":null,
   "visible":true,

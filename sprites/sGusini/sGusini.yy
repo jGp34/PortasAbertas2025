@@ -2,7 +2,7 @@
   "$GMSprite":"",
   "%Name":"sGusini",
   "bboxMode":2,
-  "bbox_bottom":63,
+  "bbox_bottom":54,
   "bbox_left":1,
   "bbox_right":61,
   "bbox_top":6,

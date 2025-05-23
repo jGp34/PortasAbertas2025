@@ -1,2 +1,2 @@
 event_inherited();
-fruli_attack();
+trulimero_attack();

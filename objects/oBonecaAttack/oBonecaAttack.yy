@@ -38,8 +38,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sBonecaAttack",
-    "path":"sprites/sBonecaAttack/sBonecaAttack.yy",
+    "name":"sAttackBoneca",
+    "path":"sprites/sAttackBoneca/sAttackBoneca.yy",
   },
   "spriteMaskId":null,
   "visible":true,

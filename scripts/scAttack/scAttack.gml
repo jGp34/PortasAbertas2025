@@ -453,6 +453,109 @@ function svinino_attack(){
 	attack_counter();
 }
 
+function garam_attack() {
+	if (can_attack && key_attack) {
+		can_attack = false;
+		audio_play_sound(sfxGaramAttack, 1, false);
+		attack_timer = attack_cooldown;
+
+		// Attack 1 (Forward melee)
+		var offset1 = 34;
+		var ax1 = x + (offset1 * attack_direction);
+		var ay1 = y + 20;
+
+		var atk1 = instance_create_layer(ax1, ay1, "Instances", oGaramAttack3);
+		atk1.direction = attack_direction;
+		atk1.image_xscale = (attack_direction == 1) ? -1 : 1;
+
+		// Attack 2 (Forward projectile)
+		var offset2 = 16;
+		var ax2 = x + (offset2 * attack_direction);
+		var ay2 = y + 16;
+
+		var atk2 = instance_create_layer(ax2, ay2, "Instances", oGaramAttack1);
+		atk2.attack_dir = attack_direction;
+		atk2.horizontal_speed = 8 * attack_direction;
+		atk2.direction = attack_direction;
+		atk2.image_xscale = (attack_direction == 1) ? -1 : 1;
+
+		// Attack 3 (Backward projectile)
+		var offset3 = 16;
+		var ax3 = x - (offset3 * attack_direction);
+		var ay3 = y + 24;
+
+		var atk3 = instance_create_layer(ax3, ay3, "Instances", oGaramAttack2);
+		atk3.attack_dir = -attack_direction;
+		atk3.horizontal_speed = 6 * -attack_direction;
+		atk3.direction = -attack_direction;
+		atk3.image_xscale = (attack_direction == 1) ? 1 : -1;
+
+		// Attack 4 (Slowness mine, limit to 3)
+		if (instance_number(oGaramAttack4) >= 3) {
+			var oldest = noone;
+			var oldest_time = 999999999;
+
+			var attack_list = array_create(instance_number(oGaramAttack4));
+			var index = 0;
+
+			with (oGaramAttack4) {
+				attack_list[index++] = id;
+			}
+
+			for (var i = 0; i < array_length(attack_list); i++) {
+				var inst = attack_list[i];
+				if (variable_instance_exists(inst, "time_created")) {
+					if (inst.time_created < oldest_time) {
+						oldest_time = inst.time_created;
+						oldest = inst;
+					}
+				}
+			}
+
+			if (oldest != noone) {
+				with (oldest) {
+					instance_destroy();
+				}
+			}
+		}
+
+		var offset4 = 32;
+		var ax4 = x;
+		var ay4 = y + 32;
+
+		var atk4 = instance_create_layer(ax4, ay4, "Instances", oGaramAttack4);
+		atk4.direction = attack_direction;
+		atk4.image_xscale = (attack_direction == 1) ? -1 : 1;
+		atk4.time_created = current_time;
+	}
+
+	attack_counter();
+}
+
+function trulimero_attack(){
+    if (can_attack && key_attack) {
+		if (instance_exists(oTrulimeroAttack)) return;
+        can_attack = false;
+        audio_play_sound(sfxTrulimeroAttack, 1, false)
+        attack_timer = attack_cooldown; 
+        
+        var _attack_offset = 57;
+        var _attack_x = x + (_attack_offset * attack_direction);
+        var _attack_y = y + 24;
+        
+        var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oTrulimeroAttack);    
+        _attack_instance.attack_dir = attack_direction;
+		_attack_instance.horizontal_speed = 11 * attack_direction;
+		_attack_instance.direction = attack_direction;
+		_attack_instance.image_xscale = (attack_direction == 1) ? -1 : 1;
+		if (place_meeting(_attack_instance.x, _attack_instance.y, oObstacle)) {
+			attack_timer = attack_cooldown/4;
+		}
+    }
+    
+    attack_counter();
+}
+
 function attack_counter(){
 	if (!can_attack) {
 		attack_timer -= 1;

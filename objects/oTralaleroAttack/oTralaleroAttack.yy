@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sTralaleroAttack",
-    "path":"sprites/sTralaleroAttack/sTralaleroAttack.yy",
+    "name":"sAttackTralalero",
+    "path":"sprites/sAttackTralalero/sAttackTralalero.yy",
   },
   "spriteMaskId":null,
   "visible":true,

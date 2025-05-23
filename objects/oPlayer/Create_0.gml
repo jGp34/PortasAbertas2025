@@ -1,9 +1,5 @@
-playerValues = {
-	walkSpeed : 7.5,
-	jumpSpeed : 15.5,
-}
-
-
+jump_speed = 15.5;
+speed_ = 7.5;
 horz_speed = 0;
 vert_speed = 0;
 grav = 0.5;

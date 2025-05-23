@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sGlorboAttack",
-    "path":"sprites/sGlorboAttack/sGlorboAttack.yy",
+    "name":"sAttackGlorbo",
+    "path":"sprites/sAttackGlorbo/sAttackGlorbo.yy",
   },
   "spriteMaskId":null,
   "visible":true,

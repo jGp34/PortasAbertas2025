@@ -9,7 +9,7 @@ function inputCheck(){
 
 	move = key_right - key_left;
 	
-	horz_speed = move * playerValues.walkSpeed;
+	horz_speed = move * speed_;
 
 	if (move != 0) {
 		attack_direction = move;
@@ -21,7 +21,7 @@ function inputCheck(){
 function movement(){
 	
 	if (key_jump && place_meeting(x, y + 1, oObstacle)){
-		vert_speed = vert_speed - playerValues.jumpSpeed;
+		vert_speed = vert_speed - jump_speed;
 	}
 	
 	if (place_meeting(x + horz_speed, y, oObstacle)){
