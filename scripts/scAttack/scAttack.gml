@@ -556,6 +556,26 @@ function trulimero_attack(){
     attack_counter();
 }
 
+function bicus_attack() {
+	if (can_attack && key_attack) {
+		can_attack = false;
+		audio_play_sound(sfxBicusAttack, 1, false);
+		attack_timer = attack_cooldown;
+
+		dash_speed = 14 * attack_direction;
+		dash_duration = 20;
+		dash_timer = dash_duration;
+		is_dashing = true;
+
+		var _attack_instance = instance_create_layer(x + 60 * attack_direction, y + 20, "Instances", oBicusAttack1);
+		_attack_instance.owner = id;
+		_attack_instance.direction = attack_direction;
+		_attack_instance.lifetime = dash_duration;
+	}
+	attack_counter();
+}
+
+
 function attack_counter(){
 	if (!can_attack) {
 		attack_timer -= 1;

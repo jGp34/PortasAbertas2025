@@ -1,0 +1,1 @@
+speed_ -= speed_/4;
