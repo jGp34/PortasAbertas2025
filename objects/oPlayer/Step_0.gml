@@ -1,4 +1,4 @@
 inputCheck();
 movement();
 applyGravity();
-scDebug();
+ManualTransform();

@@ -316,11 +316,11 @@ function ballerina_attack(){
 		_attack_instance.image_xscale = (attack_direction == 1) ? -1 : 1;
 		
 		var _attack_x2 = x + (_attack_offset * 1.5 * attack_direction);
-		var _attack_instance = instance_create_layer(_attack_x2, _attack_y, "Instances", oBallerinaAttack);    
-        _attack_instance.attack_dir = attack_direction;
-		_attack_instance.horizontal_speed = 4 * attack_direction;
-		_attack_instance.direction = attack_direction;
-		_attack_instance.image_xscale = (attack_direction == 1) ? -1 : 1;
+		var _attack_instance2 = instance_create_layer(_attack_x2, _attack_y, "Instances", oBallerinaAttack);    
+        _attack_instance2.attack_dir = attack_direction;
+		_attack_instance2.horizontal_speed = 4 * attack_direction;
+		_attack_instance2.direction = attack_direction;
+		_attack_instance2.image_xscale = (attack_direction == 1) ? -1 : 1;
 		
     }
     
@@ -347,10 +347,13 @@ function boneca_attack() {
         var attack_w = sprite_width;
         var attack_h = sprite_height;
 
+        var _attack_x = 0;
+        var _attack_y = 0;
+
         if (!collision_rectangle(base_x - attack_w/2, base_y - attack_h/2,
                                  base_x + attack_w/2, base_y + attack_h/2, oObstacle, false, true)) {
-            var _attack_x = base_x;
-            var _attack_y = base_y;
+            _attack_x = base_x;
+            _attack_y = base_y;
             found_spot = true;
         } else {
             for (var r = nudge_step; r <= max_nudge; r += nudge_step) {
@@ -374,27 +377,18 @@ function boneca_attack() {
 
         if (!found_spot) return;
 
-        var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oBonecaAttack, {
-            attack_dir: attack_direction,
-            horizontal_speed: 16 * attack_direction,
-            direction: attack_direction,
-            image_xscale: (attack_direction == 1) ? -1 : 1
-        });
+	var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oBonecaAttack, {
+	    attack_dir: attack_direction,
+	    horizontal_speed: 16 * attack_direction,
+	    direction: attack_direction,
+	    image_xscale: (attack_direction == 1) ? -1 : 1
+});
+
     }
 
     attack_counter();
 }
 
-
-
-function attack_counter(){
-	if (!can_attack) {
-		attack_timer -= 1;
-		if (attack_timer <= 0) {
-			can_attack = true;
-		}
-	}
-}
 
 function patapim_attack(){
     if (can_attack && key_attack) {
@@ -422,4 +416,48 @@ function patapim_attack(){
     }
     
     attack_counter();
+}
+
+function gusini_attack(){
+    if (can_attack && key_attack) {
+        can_attack = false;
+        audio_play_sound(sfxGusiniAttack, 1, false)
+        attack_timer = attack_cooldown; 
+        
+        var _attack_offset = 36;
+        var _attack_x = x + (_attack_offset * attack_direction);
+        var _attack_y = y + 18;
+        
+        var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oGusiniAttack);    
+        _attack_instance.attack_dir = attack_direction;
+		_attack_instance.horizontal_speed = 5 * attack_direction;
+		_attack_instance.direction = attack_direction;
+    }
+    
+    attack_counter();
+}
+
+function svinino_attack(){
+	if (can_attack && key_attack) {
+		can_attack = false;
+		audio_play_sound(sfxSvininoAttack, 1, false)
+		attack_timer = attack_cooldown; 
+		
+
+		var _attack_x = x + 2;
+		var _attack_y = y - 16;
+		
+		var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oSvininoAttack);
+	}
+	
+	attack_counter();
+}
+
+function attack_counter(){
+	if (!can_attack) {
+		attack_timer -= 1;
+		if (attack_timer <= 0) {
+			can_attack = true;
+		}
+	}
 }

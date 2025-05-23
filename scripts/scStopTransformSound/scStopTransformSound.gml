@@ -1,4 +1,4 @@
-function scStopTransformSound(){
+function StopTransformSound(){
 	audio_stop_sound(sfxAssassino);
 	audio_stop_sound(sfxBallerina);
 	audio_stop_sound(sfxBombardino);
@@ -13,4 +13,9 @@ function scStopTransformSound(){
 	audio_stop_sound(sfxTripi);
 	audio_stop_sound(sfxTung);
 	audio_stop_sound(sfxUdin);
+	audio_stop_sound(sfxBicus);
+	audio_stop_sound(sfxGaram);
+	audio_stop_sound(sfxGusini);
+	audio_stop_sound(sfxSvinino);
+	audio_stop_sound(sfxTrulimero);
 }

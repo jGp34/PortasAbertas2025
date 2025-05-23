@@ -4,7 +4,7 @@ var py = y;
 // Check if the player was originally on ground
 var was_on_ground = place_meeting(px, py + 1, oGround);
 
-scStopTransformSound();
+StopTransformSound();
 var new_player;
 do {
 	var index = irandom(array_length(global.character_list) - 1);
