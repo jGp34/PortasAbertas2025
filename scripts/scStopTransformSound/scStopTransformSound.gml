@@ -18,4 +18,5 @@ function StopTransformSound(){
 	audio_stop_sound(sfxGusini);
 	audio_stop_sound(sfxSvinino);
 	audio_stop_sound(sfxTrulimero);
+	audio_stop_sound(sfxBobrito);
 }

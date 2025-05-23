@@ -567,12 +567,76 @@ function bicus_attack() {
 		dash_timer = dash_duration;
 		is_dashing = true;
 
-		var _attack_instance = instance_create_layer(x + 60 * attack_direction, y + 20, "Instances", oBicusAttack1);
+		var _attack_instance = instance_create_layer(x + 60 * attack_direction, y + 32, "Instances", oBicusAttack1);
 		_attack_instance.owner = id;
 		_attack_instance.direction = attack_direction;
 		_attack_instance.lifetime = dash_duration;
 	}
 	attack_counter();
+}
+
+function bobrito_attack() {
+    if (current_barrage >= max_barrages && !barrage_in_progress && reload_delay_timer <= 0 && reload_timer <= 0) {
+        reload_delay_timer = reload_delay;
+    }
+
+    if (reload_delay_timer > 0) {
+        reload_delay_timer -= 1;
+        if (reload_delay_timer <= 0) {
+            reload_timer = reload;
+            audio_play_sound(sfxReload, 1, false);
+        }
+    }
+
+    if (reload_timer > 0) {
+        reload_timer -= 1;
+        if (reload_timer <= 0) {
+            current_barrage = 0;
+        }
+    }
+
+    var reloading = (reload_timer > 0) || (reload_delay_timer > 0);
+
+    if (!reloading && can_attack && key_attack && !barrage_in_progress) {
+        barrage_in_progress = true;
+        shots_fired_in_barrage = 0;
+        shot_timer = 0;
+        current_barrage += 1;
+
+        can_attack = false;
+        attack_timer = attack_cooldown;
+    }
+
+    if (barrage_in_progress) {
+        if (shot_timer <= 0) {
+            audio_play_sound(sfxBobritoAttack, 1, false);
+            
+            var _attack_offset = 32;
+            var _attack_x = x + (_attack_offset * attack_direction);
+            var _attack_y = y + 24;
+            
+            var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oBobritoAttack);    
+            _attack_instance.attack_dir = attack_direction;
+            _attack_instance.horizontal_speed = 10 * attack_direction;
+            _attack_instance.direction = attack_direction;
+            _attack_instance.image_xscale = (attack_direction == 1) ? -1 : 1;
+            
+            shots_fired_in_barrage += 1;
+
+            if (shots_fired_in_barrage >= shots_per_barrage) {
+                barrage_in_progress = false;
+                shot_timer = 0;
+            } else {
+                shot_timer = shot_interval;
+            }
+        } else {
+            shot_timer -= 1;
+        }
+    }
+
+    if (!reloading) {
+        attack_counter();
+    }
 }
 
 
