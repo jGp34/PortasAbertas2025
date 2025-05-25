@@ -42,3 +42,14 @@ function ManualTransform() {
         }
     }
 }
+
+function ChangeMode() 
+{
+	if (keyboard_check_pressed(ord("1"))) {
+	    global.mode = 1;
+	}
+
+	if (keyboard_check_pressed(ord("2"))) {
+	    global.mode = 2;
+	}
+}
