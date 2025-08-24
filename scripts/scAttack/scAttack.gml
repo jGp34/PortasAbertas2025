@@ -648,3 +648,25 @@ function attack_counter(){
 		}
 	}
 }
+
+function burbaloni_attack() {
+    if (can_attack && key_attack) {
+        can_attack = false;
+        audio_play_sound(sfxBurbaloniAttack, 1, false);
+        attack_timer = attack_cooldown;
+
+        var radius = 80;
+        var angle = 0; // or spread if multiple
+
+        var _attack_x = x + lengthdir_x(radius, angle);
+        var _attack_y = y + lengthdir_y(radius, angle);
+
+        var orb = instance_create_layer(_attack_x, _attack_y, "Instances", oBurbaloniAttack);
+        orb.owner = id;
+        orb.orbit_radius = radius;
+        orb.orbit_angle = angle;
+        orb.orbit_speed = 4;
+    }
+
+    attack_counter();
+}
