@@ -20,4 +20,14 @@ function StopTransformSound(){
 	audio_stop_sound(sfxTrulimero);
 	audio_stop_sound(sfxBobrito);
 	audio_stop_sound(sfxReload);
+	audio_stop_sound(sfxBurbaloni);
+	audio_stop_sound(sfxCacto);
+	audio_stop_sound(sfxCeleste);
+	audio_stop_sound(sfxFrigo);
+	audio_stop_sound(sfxGolubiro);
+	audio_stop_sound(sfxHotspot);
+	audio_stop_sound(sfxMatteo);
+	audio_stop_sound(sfxTatata);
+	audio_stop_sound(sfxTric);
+	audio_stop_sound(sfxTropi);
 }

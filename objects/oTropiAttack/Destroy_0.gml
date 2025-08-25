@@ -1,0 +1,1 @@
+audio_play_sound(sfxTropiAttack2, 1, false);

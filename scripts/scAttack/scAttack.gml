@@ -670,3 +670,50 @@ function burbaloni_attack() {
 
     attack_counter();
 }
+
+function tropi_attack() {
+    // Verifica se o jogador pode atacar
+    if (can_attack && key_attack) {
+        can_attack = false;
+        audio_play_sound(sfxTropiAttack, 1, false); // Renomeei o som para sfxTropiAttack
+        attack_timer = attack_cooldown;
+
+        // ---- LÓGICA DE LIMITE DE PROJÉTEIS ----
+        // Se já existem 3 ou mais projéteis na tela...
+        if (instance_number(oTropiAttack) >= 3) {
+            var oldest_instance = noone;
+            var oldest_time = 9999999999; // Um valor inicial muito alto
+
+            // O 'with' faz um loop por todas as instâncias de oTropiAttack
+            // para encontrar a que foi criada primeiro (a mais antiga).
+            with (oTropiAttack) {
+                if (time_created < oldest_time) {
+                    oldest_time = time_created;
+                    oldest_instance = id;
+                }
+            }
+
+            // Se encontramos a instância mais antiga, ela é destruída.
+            if (instance_exists(oldest_instance)) {
+                instance_destroy(oldest_instance);
+            }
+        }
+
+        // ---- CRIAÇÃO DO NOVO PROJÉTIL (código que você já tinha) ----
+        var _attack_x = x;
+        var _attack_y = y + 24;
+
+        var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oTropiAttack);
+
+        _attack_instance.speed_h = 8 * attack_direction;
+        _attack_instance.speed_v = -4;
+        
+        // MUITO IMPORTANTE: Registra o momento exato em que este projétil foi criado.
+        // É isso que permite ao código saber qual é o mais "velho".
+        _attack_instance.time_created = current_time;
+    }
+
+    // Chama a função que controla o cooldown do ataque
+    attack_counter();
+}
+
