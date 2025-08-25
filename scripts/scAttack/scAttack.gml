@@ -672,34 +672,25 @@ function burbaloni_attack() {
 }
 
 function tropi_attack() {
-    // Verifica se o jogador pode atacar
     if (can_attack && key_attack) {
         can_attack = false;
-        audio_play_sound(sfxTropiAttack, 1, false); // Renomeei o som para sfxTropiAttack
+        audio_play_sound(sfxTropiAttack, 1, false);
         attack_timer = attack_cooldown;
 
-        // ---- LÓGICA DE LIMITE DE PROJÉTEIS ----
-        // Se já existem 3 ou mais projéteis na tela...
         if (instance_number(oTropiAttack) >= 3) {
             var oldest_instance = noone;
-            var oldest_time = 9999999999; // Um valor inicial muito alto
+            var oldest_time = 9999999999;
 
-            // O 'with' faz um loop por todas as instâncias de oTropiAttack
-            // para encontrar a que foi criada primeiro (a mais antiga).
             with (oTropiAttack) {
                 if (time_created < oldest_time) {
                     oldest_time = time_created;
                     oldest_instance = id;
                 }
             }
-
-            // Se encontramos a instância mais antiga, ela é destruída.
             if (instance_exists(oldest_instance)) {
                 instance_destroy(oldest_instance);
             }
         }
-
-        // ---- CRIAÇÃO DO NOVO PROJÉTIL (código que você já tinha) ----
         var _attack_x = x;
         var _attack_y = y + 24;
 
@@ -708,12 +699,30 @@ function tropi_attack() {
         _attack_instance.speed_h = 8 * attack_direction;
         _attack_instance.speed_v = -4;
         
-        // MUITO IMPORTANTE: Registra o momento exato em que este projétil foi criado.
-        // É isso que permite ao código saber qual é o mais "velho".
         _attack_instance.time_created = current_time;
     }
 
-    // Chama a função que controla o cooldown do ataque
     attack_counter();
 }
 
+function cacto_attack() {
+    if (can_attack && key_attack) {
+        can_attack = false;
+        // Make sure you create this sound effect!
+        audio_play_sound(sfxCactoAttack, 1, false);
+        attack_timer = attack_cooldown; 
+        
+        var _attack_x = x;
+        var _attack_y = y + 24;
+        
+        // This is the main projectile object we'll create next
+        var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oCactoAttack1);
+        
+        // Set its speed and direction
+        _attack_instance.attack_dir = attack_direction;
+        _attack_instance.horizontal_speed = 7 * attack_direction; // Feel free to change the speed
+        _attack_instance.image_xscale = (attack_direction == 1) ? -1 : 1;
+    }
+    
+    attack_counter();
+}
