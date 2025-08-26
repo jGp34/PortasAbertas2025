@@ -813,3 +813,39 @@ function tric_attack() {
     // The main attack cooldown runs independently of the states
     attack_counter();
 }
+
+function hotspot_attack() {
+    if (can_attack && key_attack) {
+        can_attack = false;
+
+        if (instance_exists(oHotspotAttack)) {
+            // Detonation logic is the same
+            with (oHotspotAttack) {
+                instance_destroy();
+            }
+			attack_timer = attack_cooldown;
+        } else {
+            // --- NEW SPAWN LOGIC ---
+            audio_play_sound(sfxHotspotAttack, 1, false);
+            
+            // 1. Propose a starting spawn position
+            var _spawn_x = x;
+            var _spawn_y = y - 6; // Start near the player's center
+            
+            // 2. Check if this spot is stuck. If it is, nudge it DOWN until it's free.
+            // This loop guarantees a safe spawn point.
+            while (place_meeting(_spawn_x, _spawn_y, oObstacle)) {
+                _spawn_y += 1;
+            }
+            
+            // 3. Now that we have a guaranteed safe spot, create the instance.
+            var _attack_instance = instance_create_layer(_spawn_x, _spawn_y, "Instances", oHotspotAttack);
+            
+            _attack_instance.speed_h = 8 * attack_direction;
+            _attack_instance.speed_v = -5;
+			attack_timer = attack_cooldown/2;
+        }
+    }
+    
+    attack_counter();
+}
