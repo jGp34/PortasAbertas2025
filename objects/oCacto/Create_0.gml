@@ -1,3 +1,3 @@
 event_inherited();
 audio_play_sound(sfxCacto, 1, false);
-attack_cooldown = 1.85 * game_get_speed(gamespeed_fps);
+attack_cooldown = 2.1 * game_get_speed(gamespeed_fps);
