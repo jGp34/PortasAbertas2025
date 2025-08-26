@@ -30,4 +30,5 @@ function StopTransformSound(){
 	audio_stop_sound(sfxTatata);
 	audio_stop_sound(sfxTric);
 	audio_stop_sound(sfxTropi);
+	audio_stop_sound(sfxTricAttack2);
 }

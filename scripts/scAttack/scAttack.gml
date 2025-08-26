@@ -726,3 +726,90 @@ function cacto_attack() {
     
     attack_counter();
 }
+
+function tric_attack() {
+    // State machine for Tric's minigun attack
+    switch (tric_state) {
+        
+        // --- STATE 1: Ready to Fire ---
+        case TRIC_STATE.READY:
+            // Check if we can start a new attack
+            if (can_attack && key_attack) {
+                // Start the cooldown timer immediately
+                can_attack = false;
+                attack_timer = attack_cooldown;
+                
+                // Play wind-up sound
+                audio_play_sound(sfxTricAttack2, 1, false);
+                
+                // Set timer for the wind-up phase and switch state
+                tric_timer = TRIC_WINDUP_TIME;
+                tric_state = TRIC_STATE.WINDUP;
+                
+                // Root the player in place during wind-up (the risk!)
+                hspeed = 0;
+            }
+            break;
+
+        // --- STATE 2: Winding Up ---
+        case TRIC_STATE.WINDUP:
+            // The player is stuck in place here
+            hspeed = 0;
+            
+            // Countdown the wind-up timer
+            tric_timer--;
+            if (tric_timer <= 0) {
+                // Wind-up is over, start firing
+                tric_shots_fired = 0;
+                tric_timer = TRIC_SHOT_INTERVAL; // Set timer for the first shot
+                tric_state = TRIC_STATE.FIRING;
+            }
+            break;
+            
+        // --- STATE 3: Firing the Barrage ---
+        case TRIC_STATE.FIRING:
+            // Apply constant recoil (the consequence!)
+			var _recoil_move = TRIC_RECOIL_STRENGTH * attack_direction;
+
+			// Check if the spot we want to move to is free BEFORE moving!
+			if (!place_meeting(x - _recoil_move, y, oObstacle)) {
+			    x -= _recoil_move;
+			}
+            
+            // Countdown timer for the next shot
+            tric_timer--;
+            if (tric_timer <= 0) {
+                // Time to fire a bullet
+                audio_play_sound(sfxTricAttack, 1, false);
+                
+                // Calculate bullet spawn position
+                var _attack_offset = 40;
+                var _attack_x = x + (_attack_offset * attack_direction);
+                var _attack_y = y + 24;
+                
+                // Calculate direction with random spread
+                var _base_dir = (attack_direction == 1) ? 0 : 180;
+                var _spread = random_range(-TRIC_BULLET_SPREAD / 2, TRIC_BULLET_SPREAD / 2);
+                var _bullet_dir = _base_dir + _spread;
+                
+                // Create the bullet
+                var _bullet = instance_create_layer(_attack_x, _attack_y, "Instances", oTricAttack);
+                _bullet.speed = 12; // Or whatever speed you like
+                _bullet.direction = _bullet_dir;
+                
+                // Increment shot counter and reset timer
+                tric_shots_fired++;
+                tric_timer = TRIC_SHOT_INTERVAL;
+                
+                // Check if the barrage is finished
+                if (tric_shots_fired >= TRIC_SHOTS_PER_BARRAGE) {
+                    // Barrage over, return to ready state
+                    tric_state = TRIC_STATE.READY;
+                }
+            }
+            break;
+    }
+    
+    // The main attack cooldown runs independently of the states
+    attack_counter();
+}

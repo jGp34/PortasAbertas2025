@@ -9,7 +9,7 @@
   "bitRate":128,
   "compression":0,
   "conversionMode":0,
-  "duration":3.36,
+  "duration":3.3359864,
   "name":"sfxTatata",
   "parent":{
     "name":"characters",

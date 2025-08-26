@@ -9,7 +9,7 @@
   "bitRate":128,
   "compression":0,
   "conversionMode":0,
-  "duration":3.912018,
+  "duration":3.8880045,
   "name":"sfxHotspot",
   "parent":{
     "name":"characters",
