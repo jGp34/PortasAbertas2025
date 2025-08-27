@@ -33,3 +33,16 @@ else if (global.mode == 2) {
     instance_create_depth(px, py, current_depth, object_index);
     instance_destroy();
 }
+
+var _my_id = id;
+
+// Then, we check all Hotspot projectiles on screen.
+with (oHotspotAttack) {
+    // The 'with' statement makes the projectile check itself.
+    // 'owner_id' belongs to the projectile.
+    // We compare it to the player's ID we saved.
+    if (owner_id == _my_id) {
+        // If the IDs match, this is our projectile. Destroy it.
+        instance_destroy();
+    }
+}

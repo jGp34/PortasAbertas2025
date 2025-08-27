@@ -844,6 +844,7 @@ function hotspot_attack() {
             _attack_instance.speed_h = 8 * attack_direction;
             _attack_instance.speed_v = -5;
 			attack_timer = attack_cooldown/2;
+			_attack_instance.owner_id = id;
         }
     }
     
