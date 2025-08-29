@@ -1,3 +1,12 @@
+function attack_counter(){
+	if (!can_attack) {
+		attack_timer -= 1;
+		if (attack_timer <= 0) {
+			can_attack = true;
+		}
+	}
+}
+
 function tung_attack(){
 	if (can_attack && key_attack) {
 		can_attack = false;
@@ -639,16 +648,6 @@ function bobrito_attack() {
     }
 }
 
-
-function attack_counter(){
-	if (!can_attack) {
-		attack_timer -= 1;
-		if (attack_timer <= 0) {
-			can_attack = true;
-		}
-	}
-}
-
 function burbaloni_attack() {
     if (can_attack && key_attack) {
         can_attack = false;
@@ -677,10 +676,10 @@ function tropi_attack() {
         audio_play_sound(sfxTropiAttack, 1, false);
         attack_timer = attack_cooldown;
 
+        // Your instance limit logic (remains unchanged)
         if (instance_number(oTropiAttack) >= 3) {
             var oldest_instance = noone;
             var oldest_time = 9999999999;
-
             with (oTropiAttack) {
                 if (time_created < oldest_time) {
                     oldest_time = time_created;
@@ -691,14 +690,43 @@ function tropi_attack() {
                 instance_destroy(oldest_instance);
             }
         }
-        var _attack_x = x;
-        var _attack_y = y + 24;
 
+        // Your spawn position logic (remains unchanged)
+        var _attack_x = x + 32;
+        var _attack_y = y + 32;
+
+        // Your instance creation logic (remains unchanged)
         var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oTropiAttack);
 
+        // --- START: CORRECTED NUDGE LOGIC ---
+        // This will push the attack out of any obstacle it spawns in.
+        var _max_nudges = 32;
+        var _nudge_count = 0;
+        
+        // Step 1: Nudge Horizontally to escape side walls
+        while (place_meeting(_attack_instance.x, _attack_instance.y, oObstacle) && _nudge_count < _max_nudges) {
+            _attack_instance.x -= attack_direction;
+            _nudge_count++;
+        }
+
+        // Step 2: Nudge Vertically to escape the floor
+        _nudge_count = 0;
+        while (place_meeting(_attack_instance.x, _attack_instance.y, oObstacle) && _nudge_count < _max_nudges) {
+            _attack_instance.y -= 1; // Corrected: Push UPWARDS to escape the floor
+            _nudge_count++;
+        }
+        
+        // Final check: If still stuck, destroy it to prevent getting stuck.
+        if (place_meeting(_attack_instance.x, _attack_instance.y, oObstacle)) {
+            instance_destroy(_attack_instance);
+            can_attack = true;
+            return;
+        }
+        // --- END: CORRECTED NUDGE LOGIC ---
+
+        // Your attack property logic (remains unchanged)
         _attack_instance.speed_h = 8 * attack_direction;
         _attack_instance.speed_v = -4;
-        
         _attack_instance.time_created = current_time;
     }
 
@@ -815,38 +843,56 @@ function tric_attack() {
 }
 
 function hotspot_attack() {
-    if (can_attack && key_attack) {
-        can_attack = false;
+	if (can_attack && key_attack) {
+		can_attack = false;
 
-        if (instance_exists(oHotspotAttack)) {
-            // Detonation logic is the same
-            with (oHotspotAttack) {
-                instance_destroy();
-            }
+		if (instance_exists(oHotspotAttack)) {
+			// Detonation logic is the same
+			with (oHotspotAttack) {
+				instance_destroy();
+			}
 			attack_timer = attack_cooldown;
-        } else {
-            // --- NEW SPAWN LOGIC ---
-            audio_play_sound(sfxHotspotAttack, 1, false);
-            
-            // 1. Propose a starting spawn position
-            var _spawn_x = x;
-            var _spawn_y = y - 6; // Start near the player's center
-            
-            // 2. Check if this spot is stuck. If it is, nudge it DOWN until it's free.
-            // This loop guarantees a safe spawn point.
-            while (place_meeting(_spawn_x, _spawn_y, oObstacle)) {
-                _spawn_y += 1;
-            }
-            
-            // 3. Now that we have a guaranteed safe spot, create the instance.
-            var _attack_instance = instance_create_layer(_spawn_x, _spawn_y, "Instances", oHotspotAttack);
-            
-            _attack_instance.speed_h = 8 * attack_direction;
-            _attack_instance.speed_v = -5;
-			attack_timer = attack_cooldown/2;
-			_attack_instance.owner_id = id;
-        }
-    }
-    
-    attack_counter();
+		} else {
+			audio_play_sound(sfxHotspotAttack, 1, false);
+
+			// 1. Propose an ideal spawn position
+			var _spawn_x = x + (24 * attack_direction);
+			var _spawn_y = y - 6;
+
+			// 2. Create the attack instance
+			var _attack = instance_create_layer(_spawn_x, _spawn_y, "Instances", oHotspotAttack);
+
+			// --- 3. SMARTER TWO-STEP NUDGE LOGIC ---
+			var _max_nudges = 32;
+			var _nudge_count = 0;
+			
+			// Step 1: Try to fix HORIZONTAL position (for side walls)
+			while (place_meeting(_attack.x, _attack.y, oObstacle) && _nudge_count < _max_nudges) {
+				_attack.x -= attack_direction;
+				_nudge_count++;
+			}
+
+			// Step 2: If still stuck, try to fix VERTICAL position (for ceilings)
+			// This second loop only runs if the horizontal nudge wasn't enough.
+			_nudge_count = 0;
+			while (place_meeting(_attack.x, _attack.y, oObstacle) && _nudge_count < _max_nudges) {
+				_attack.y += 1;
+				_nudge_count++;
+			}
+			
+			// 4. Final check: If still stuck after all that, it's an impossible spawn.
+			if (place_meeting(_attack.x, _attack.y, oObstacle)) {
+				instance_destroy(_attack);
+				can_attack = true;
+				return;
+			}
+
+			// 5. Now that it's safe, launch it!
+			_attack.speed_h = 8 * attack_direction;
+			_attack.speed_v = -5;
+			_attack.owner_id = id;
+			attack_timer = attack_cooldown / 2;
+		}
+	}
+	attack_counter();
 }

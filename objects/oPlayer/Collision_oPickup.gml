@@ -1,10 +1,15 @@
+// Player collision with transform pickup
+
+// This part is an assumption of how your code is structured.
+// Only the 'global.mode == 1' part is what we're fixing.
 if (global.mode == 1) {
+    // --- THIS IS THE CORRECTED LOGIC ---
+
+    // 1. Save the current position, but most importantly, the bottom of the hitbox.
     var px = x;
-    var py = y;
+    var p_bottom = bbox_bottom; // The key! We save the "feet" position.
 
-    // Was the player standing on ground before transform?
-    var was_on_ground = place_meeting(px, py + 1, oGround);
-
+    // This part of your code is fine.
     StopTransformSound();
     var new_player;
     do {
@@ -12,18 +17,19 @@ if (global.mode == 1) {
         new_player = global.character_list[index];
     } until (new_player != object_index);
 
+    // 2. Change the instance. The code from here on is executed by the NEW object.
     instance_change(new_player, true);
 
-    // Keep position after change
+    // 3. Restore the horizontal position and adjust the vertical position.
     x = px;
-    y = py;
+    // This calculation adjusts the new sprite's 'y' so its feet are where the old one's were.
+    y += p_bottom - bbox_bottom;
 
-    // Mark state if needed
-    if (was_on_ground) {
-        vspeed = 0; // optional: reset falling
-    }
-}
-else if (global.mode == 2) {
+    // Reset vertical speed to prevent carrying over a falling speed.
+    vert_speed = 0;
+
+} else if (global.mode == 2) {
+    // This mode seems fine as is.
     var px = x;
     var py = y;
     var current_depth = depth;
@@ -34,15 +40,10 @@ else if (global.mode == 2) {
     instance_destroy();
 }
 
+// Your projectile-clearing code is also fine.
 var _my_id = id;
-
-// Then, we check all Hotspot projectiles on screen.
 with (oHotspotAttack) {
-    // The 'with' statement makes the projectile check itself.
-    // 'owner_id' belongs to the projectile.
-    // We compare it to the player's ID we saved.
     if (owner_id == _my_id) {
-        // If the IDs match, this is our projectile. Destroy it.
         instance_destroy();
     }
 }

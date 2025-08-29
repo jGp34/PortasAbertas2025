@@ -1,31 +1,49 @@
-// 1. APLICA A GRAVIDADE
-// A física continua a mesma
-speed_v += gravity_force;
+// In oTropiAttack - STEP EVENT (Upgraded)
+
+// --- 0. SELF-RESCUE LOGIC ---
+// If we spawn inside a wall, this code will forcibly push us out.
+if (place_meeting(x, y, oObstacle)) {
+	var _pushed_out = false;
+	for (var i = 0; i < 32; i++) { if (!place_meeting(x - i, y, oObstacle)) { x -= i; _pushed_out = true; break; } }
+	if (!_pushed_out) { for (var i = 0; i < 32; i++) { if (!place_meeting(x + i, y, oObstacle)) { x += i; break; } } }
+}
+
+// 1. Apply Gravity
+speed_v += gravity_effect;
 speed_v = clamp(speed_v, -max_speed_v, max_speed_v);
 
-// 2. MOVIMENTO E COLISÃO HORIZONTAL
-// Primeiro, a gente move o objeto no eixo X
-x += speed_h;
 
-// AGORA, a gente checa se, APÓS O MOVIMENTO, ele está colidindo com um obstáculo
-if (place_meeting(x, y, oObstacle)) {
-    // Se colidiu, a mágica acontece aqui:
-    // 1. Voltamos para a posição segura do frame anterior
-    x = xprevious;
-    // 2. SÓ ENTÃO invertemos a velocidade para o próximo frame
-    speed_h *= -1;
+// --- PIXEL-PERFECT MOVEMENT LOGIC ---
+x_remainder += speed_h;
+y_remainder += speed_v;
+var _move_x = round(x_remainder);
+var _move_y = round(y_remainder);
+x_remainder -= _move_x;
+y_remainder -= _move_y;
+
+// 3. Horizontal Movement
+if (_move_x != 0) {
+	var _dir = sign(_move_x);
+	repeat(abs(_move_x)) {
+		if (place_meeting(x + _dir, y, oObstacle) || place_meeting(x + _dir, y, oEnemy)) {
+			speed_h *= -1 * bounce_dampen;
+			break;
+		}
+		x += _dir;
+	}
 }
 
-// 3. MOVIMENTO E COLISÃO VERTICAL
-// Exatamente a mesma lógica para o eixo Y
-y += speed_v;
-
-if (place_meeting(x, y, oObstacle)) {
-    y = yprevious;
-    speed_v *= -1;
+// 4. Vertical Movement
+if (_move_y != 0) {
+	var _dir = sign(_move_y);
+	repeat(abs(_move_y)) {
+		if (place_meeting(x, y + _dir, oObstacle) || place_meeting(x, y + _dir, oEnemy)) {
+			speed_v *= -1 * bounce_dampen;
+			break;
+		}
+		y += _dir;
+	}
 }
 
-
-// 4. EFEITO VISUAL EXTRA
-// A rotação continua igual pra dar um charme
+// 5. Your original visual flair, which is great!
 image_angle += speed_h;
