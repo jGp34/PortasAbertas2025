@@ -939,3 +939,22 @@ function frigo_attack(){
 	
 	attack_counter();
 }
+
+function celeste_attack() {
+    if (can_attack && key_attack) {
+        can_attack = false;
+        audio_play_sound(sfxCelesteAttack, 1, false);
+        attack_timer = attack_cooldown;
+
+        // Define the starting position
+        var _start_x = x + (16 * attack_direction);
+        var _start_y = y + 8;
+
+        // Create the beam object and pass it the direction it should fire in
+        instance_create_layer(_start_x, _start_y, "Instances", oCelesteAttack, {
+            direction_to_fire: attack_direction
+        });
+    }
+
+    attack_counter();
+}

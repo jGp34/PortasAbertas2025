@@ -8,3 +8,11 @@ if (is_poisoned) {
 		instance_destroy();
 	}
 }
+
+if (is_stunned) {
+    stun_timer -= 1;
+    if (stun_timer <= 0) {
+        is_stunned = false;
+        speed_ = OG_SPEED;
+    }
+}

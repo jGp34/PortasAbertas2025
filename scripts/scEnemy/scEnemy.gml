@@ -60,3 +60,8 @@ function start_falling() {
         hspd = 0;
     }
 }
+
+function get_stunned(duration) {
+    is_stunned = true;
+    stun_timer = duration;
+}
