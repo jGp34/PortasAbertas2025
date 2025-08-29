@@ -921,3 +921,21 @@ function tatata_attack(){
     
     attack_counter();
 }
+
+function frigo_attack(){
+	if (can_attack && key_attack) {
+		can_attack = false;
+		audio_play_sound(sfxFrigoAttack, 1, false)
+		attack_timer = attack_cooldown; 
+		
+		var _attack_offset = 64;
+		var _attack_x = x + (_attack_offset * attack_direction);
+		var _attack_y = y;
+		
+		var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oFrigoAttack);
+		_attack_instance.direction = attack_direction;
+		_attack_instance.image_xscale = (attack_direction == 1) ? -1 : 1;
+	}
+	
+	attack_counter();
+}

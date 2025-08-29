@@ -1,2 +1,2 @@
 event_inherited();
-tralalero_attack();
+frigo_attack();

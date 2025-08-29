@@ -6,3 +6,5 @@ image_blend = c_red;
 
 is_poisoned = false;
 poison_timer = 0;
+is_frozen = false;
+projectiles_hit_by = [];

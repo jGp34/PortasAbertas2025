@@ -8,3 +8,5 @@ depth = -10;
 
 is_poisoned = false;
 poison_timer = 0;
+is_frozen = false;
+projectiles_hit_by = [];

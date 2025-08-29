@@ -47,3 +47,16 @@ function floatingMovement() {
 
     image_xscale = (hspd < 0) ? -1 : 1;
 }
+
+
+
+function start_falling() {
+    // We only want to start falling if we are currently floating
+    if (state == ENEMY_STATE.FLOATING) {
+        state = ENEMY_STATE.FALLING;
+        
+        // Reset speeds for a clean fall
+        vspd = 0;
+        hspd = 0;
+    }
+}

@@ -9,7 +9,7 @@
   "bitRate":128,
   "compression":0,
   "conversionMode":0,
-  "duration":2.0880046,
+  "duration":1.5840136,
   "name":"sfxTatataAttack",
   "parent":{
     "name":"attack",
