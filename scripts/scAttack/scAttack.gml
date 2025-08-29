@@ -896,3 +896,28 @@ function hotspot_attack() {
 	}
 	attack_counter();
 }
+
+// In your Player Object's script with the other attack functions
+
+function tatata_attack(){
+    if (can_attack && key_attack) {
+        can_attack = false;
+        // Make sure to create this sound effect in your asset browser!
+        audio_play_sound(sfxTatataAttack, 1, false); 
+        attack_timer = attack_cooldown; 
+        
+        // Adjust the spawn position to fit Tatata's sprite
+        var _attack_offset = 40;
+        var _attack_x = x + (_attack_offset * attack_direction);
+        var _attack_y = y + 24;
+        
+        // Create the gas cloud instance
+        var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oTatataAttack);  
+        
+        // Set its speed and direction
+        _attack_instance.horizontal_speed = 6 * attack_direction;
+        _attack_instance.image_xscale = (attack_direction == 1) ? 1 : -1;
+    }
+    
+    attack_counter();
+}
