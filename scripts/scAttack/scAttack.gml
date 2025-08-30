@@ -576,7 +576,7 @@ function bicus_attack() {
 		dash_timer = dash_duration;
 		is_dashing = true;
 
-		var _attack_instance = instance_create_layer(x + 60 * attack_direction, y + 32, "Instances", oBicusAttack1);
+		var _attack_instance = instance_create_layer(x + 60 * attack_direction, y + 32, "Instances", oBicusAttack);
 		_attack_instance.owner = id;
 		_attack_instance.direction = attack_direction;
 		_attack_instance.lifetime = dash_duration;
@@ -956,5 +956,48 @@ function celeste_attack() {
         });
     }
 
+    attack_counter();
+}
+
+function golubiro_attack() {
+    if (can_attack && key_attack) {
+        can_attack = false;
+        attack_timer = attack_cooldown;
+
+        // Check which attack mode is currently active
+        switch (combo_mode) {
+            
+            // --- MODE 1: FIRE THE STUN CONE ---
+            case COMBO_ATTACK_MODE.STUN_CONE:
+                audio_play_sound(sfxGolubiroAttack, 1, false); // Create this sound
+                
+                // Create the cone effect object
+                var _cone = instance_create_layer(x, y, "Instances", oGolubiroAttack);
+                _cone.owner = id; // Tell the cone who fired it
+                
+                // Switch to the next mode for the next attack
+                combo_mode = COMBO_ATTACK_MODE.TELEPORT_BULLET;
+                break;
+            
+            // --- MODE 2: FIRE THE TELEPORT BULLET ---
+            case COMBO_ATTACK_MODE.TELEPORT_BULLET:
+                audio_play_sound(sfxGolubiroAttack2, 1, false); // Create this sound
+                
+                var _attack_offset = 32;
+                var _attack_x = x + (_attack_offset * attack_direction);
+                var _attack_y = y + 24;
+                
+                // Create the bullet projectile
+                var _bullet = instance_create_layer(_attack_x, _attack_y, "Instances", oGolubiroAttack2);
+                _bullet.owner = id; // The bullet needs to know who to teleport
+                _bullet.horizontal_speed = 12 * attack_direction;
+                _bullet.image_xscale = attack_direction;
+                
+                // Reset back to the first mode for the next attack
+                combo_mode = COMBO_ATTACK_MODE.STUN_CONE;
+                break;
+        }
+    }
+    
     attack_counter();
 }

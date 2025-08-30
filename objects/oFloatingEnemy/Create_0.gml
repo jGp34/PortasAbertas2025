@@ -28,4 +28,6 @@ function get_stunned(duration) {
     is_stunned = true;
     stun_timer = duration;
     speed_ = 0;
+	hspd = 0;
+	vspd = 0;
 }

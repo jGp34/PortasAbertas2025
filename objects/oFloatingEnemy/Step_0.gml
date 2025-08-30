@@ -54,5 +54,7 @@ if (is_stunned) {
     if (stun_timer <= 0) {
         is_stunned = false;
         speed_ = OG_SPEED;
+		hspd = choose(-1, 1) * speed_;
+		vspd = choose(-1, 1) * speed_;
     }
 }
