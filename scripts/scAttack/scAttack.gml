@@ -95,7 +95,7 @@ function bombardino_attack(){
 			var _attack_x = x;
 			var _attack_y = y + 48;
 		
-			var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oBombardinoAttack);		
+			var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oBombardinoAttack1);		
 			_attack_instance.direction = attack_direction;
 			_attack_instance.image_xscale = (attack_direction == 1) ? -1 : 1;
 		}
@@ -576,7 +576,7 @@ function bicus_attack() {
 		dash_timer = dash_duration;
 		is_dashing = true;
 
-		var _attack_instance = instance_create_layer(x + 60 * attack_direction, y + 32, "Instances", oBicusAttack);
+		var _attack_instance = instance_create_layer(x + 60 * attack_direction, y + 32, "Instances", oBicusAttack1);
 		_attack_instance.owner = id;
 		_attack_instance.direction = attack_direction;
 		_attack_instance.lifetime = dash_duration;
@@ -972,7 +972,7 @@ function golubiro_attack() {
                 audio_play_sound(sfxGolubiroAttack, 1, false); // Create this sound
                 
                 // Create the cone effect object
-                var _cone = instance_create_layer(x, y, "Instances", oGolubiroAttack);
+                var _cone = instance_create_layer(x, y, "Instances", oGolubiroAttack1);
                 _cone.owner = id; // Tell the cone who fired it
                 
                 // Switch to the next mode for the next attack
@@ -1000,4 +1000,39 @@ function golubiro_attack() {
     }
     
     attack_counter();
+}
+
+function matteo_attack() {
+    // Only check for the attack key, the cooldown is not needed for this weapon
+    if (key_attack) { 
+        
+        // If the ball is NOT out, throw it
+        if (!instance_exists(oMatteoAttack)) {
+            can_attack = false;
+            attack_timer = attack_cooldown; // A short cooldown after throwing
+            
+            var _ball = instance_create_layer(x, y, "Instances", oMatteoAttack);
+            _ball.owner = id; // Tell the ball who its owner is
+            
+            // Give it an initial launch speed
+            var _launch_speed = 10;
+            var _launch_dir = (attack_direction == 1) ? 25 : 155;
+            _ball.hspd = lengthdir_x(_launch_speed, _launch_dir);
+            _ball.vspd = lengthdir_y(_launch_speed, _launch_dir);
+            
+            // Store the ball's ID so we know it's out
+            spike_ball_instance = _ball;
+			audio_play_sound(sfxMatteoAttack, 1, false);
+        }
+        // If the ball IS out, recall it
+        else {
+            // Tell the ball to start retracting
+            with (spike_ball_instance) {
+                is_retracting = true;
+				audio_play_sound(sfxMatteoAttack2, 1, false);
+            }
+        }
+    }
+    
+    attack_counter(); // This handles the cooldown after the initial throw
 }

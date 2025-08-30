@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"sfxMatteoAttack",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":1.2959864,
+  "name":"sfxMatteoAttack",
+  "parent":{
+    "name":"attack",
+    "path":"folders/Sounds/attack.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"sfxMatteoAttack.mp3",
+  "type":0,
+  "volume":1.0,
+}

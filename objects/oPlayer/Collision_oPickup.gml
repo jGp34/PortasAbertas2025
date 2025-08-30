@@ -1,7 +1,17 @@
-// Player collision with transform pickup
+var _old_player_id = id;
+with (oHotspotAttack) {
+    if (owner_id == _old_player_id) {
+        instance_destroy();
+    }
+}
 
-// This part is an assumption of how your code is structured.
-// Only the 'global.mode == 1' part is what we're fixing.
+// Clean up Matteo's spike ball (using the correct 'owner' variable)
+with (oMatteoAttack) {
+    if (owner == _old_player_id) {
+        instance_destroy();
+    }
+}
+
 if (global.mode == 1) {
     // --- THIS IS THE CORRECTED LOGIC ---
 
@@ -38,12 +48,4 @@ if (global.mode == 1) {
 
     instance_create_depth(px, py, current_depth, object_index);
     instance_destroy();
-}
-
-// Your projectile-clearing code is also fine.
-var _my_id = id;
-with (oHotspotAttack) {
-    if (owner_id == _my_id) {
-        instance_destroy();
-    }
 }
