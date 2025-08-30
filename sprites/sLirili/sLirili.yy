@@ -23,7 +23,7 @@
   ],
   "name":"sLirili",
   "nineSlice":null,
-  "origin":4,
+  "origin":1,
   "parent":{
     "name":"characters",
     "path":"folders/Sprites/characters.yy",
@@ -78,7 +78,7 @@
     "visibleRange":null,
     "volume":1.0,
     "xorigin":32,
-    "yorigin":32,
+    "yorigin":0,
   },
   "swatchColours":null,
   "swfPrecision":0.5,
