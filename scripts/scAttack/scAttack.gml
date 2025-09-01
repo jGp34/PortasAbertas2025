@@ -121,7 +121,7 @@ function chimpanzini_attack(){
 		audio_play_sound(sfxChimpanziniAttack, 1, false)
 		attack_timer = attack_cooldown; 
 
-		if (instance_number(oChimpanziniAttack) >= 4) {
+		if (instance_number(oChimpanziniAttack) >= 5) {
 			var oldest = noone;
 			var oldest_time = 999999999;
 
@@ -167,7 +167,7 @@ function lirili_attack(){
 		can_attack = false;
 		audio_play_sound(sfxLiriliAttack, 1, false)
 		attack_timer = attack_cooldown; 
-		if (instance_number(oLiriliAttack) >= 2) {
+		if (instance_number(oLiriliAttack) >= 4) {
 			var oldest = noone;
 			var oldest_time = 999999999;
 
@@ -677,7 +677,7 @@ function tropi_attack() {
         attack_timer = attack_cooldown;
 
         // Your instance limit logic (remains unchanged)
-        if (instance_number(oTropiAttack) >= 3) {
+        if (instance_number(oTropiAttack) >= 5) {
             var oldest_instance = noone;
             var oldest_time = 9999999999;
             with (oTropiAttack) {
@@ -896,8 +896,6 @@ function hotspot_attack() {
 	}
 	attack_counter();
 }
-
-// In your Player Object's script with the other attack functions
 
 function tatata_attack(){
     if (can_attack && key_attack) {
