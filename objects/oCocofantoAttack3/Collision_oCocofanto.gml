@@ -1,0 +1,1 @@
+other.bonus_ranged_shots += 1;

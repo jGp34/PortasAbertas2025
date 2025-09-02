@@ -4,7 +4,8 @@ global.enraged_enemy_queue = 0;
 global.enraged_floating_enemy_queue = 0;
 global.enraged_big_enemy_queue = 0;
 global.mode = 1;
-global.character_list = [oTung, oTralalero, oBombardino, oPatapim, oAssassino, oBallerina, oBoneca, oChimpanzini, oFruli, oGlorbo, oLirili, oSaturno, oTripi, oUdin, oGusini, oGaram, oBicus, oTrulimero, oSvinino, oBobrito, oBurbaloni, oCacto, oHotspot, oTric, oTropi, oCeleste, oFrigo, oGolubiro, oMatteo, oTatata]
+global.character_list = [oTung, oTralalero, oBombardino, oPatapim, oAssassino, oBallerina, oBoneca, oChimpanzini, oFruli, oGlorbo, oLirili, oSaturno, oTripi, oUdin, oGusini, oGaram, oBicus, oTrulimero, oSvinino, oBobrito, oBurbaloni, oCacto, oHotspot, oTric, oTropi, oCeleste, oFrigo, oGolubiro, oMatteo, oTatata, oCocofanto]
+//oBlueberrinni, oChicletera, oCrocodildo, oDolfinita, oEspressona, oFootera, oOrangutini, oSigma, oTob
 randomize();
 instance_create_layer(0, 0, "Instances", oPickup);
 audio_play_sound(mGame, 1, true);

@@ -16,10 +16,13 @@ for (var i = 0; i < array_length(ground_list); i++) {
     var test_x = clamp(pos[0], 0, room_width - sprite_width);
     var test_y = clamp(pos[1], 0, room_height - sprite_height);
     
-    x = test_x;
-    y = test_y;
-    
-    if (!place_meeting(x, y, oSpawner) && !instance_place(x, y, object_index) && !place_meeting(x, y, oPlayer)) {
+    // Test position without committing to it yet
+    if (!place_meeting(test_x, test_y, oSpawner)
+    && !instance_place(test_x, test_y, object_index)
+    && !instance_place(test_x, test_y, oPlayer)) {
+        
+        x = test_x;
+        y = test_y;
         found = true;
         break;
     }

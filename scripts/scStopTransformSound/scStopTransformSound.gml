@@ -33,4 +33,14 @@ function StopTransformSound(){
 	audio_stop_sound(sfxTricAttack2);
 	audio_stop_sound(sfxMatteoAttack);
 	audio_stop_sound(sfxMatteoAttack2);
+	audio_stop_sound(sfxBlueberrinni);
+	audio_stop_sound(sfxChicletera);
+	audio_stop_sound(sfxCocofanto);
+	audio_stop_sound(sfxCrocodildo);
+	audio_stop_sound(sfxDolfinita);
+	audio_stop_sound(sfxEspressona);
+	audio_stop_sound(sfxFootera);
+	audio_stop_sound(sfxOrangutini);
+	audio_stop_sound(sfxSigma);
+	audio_stop_sound(sfxTob);
 }

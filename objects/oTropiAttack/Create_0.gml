@@ -1,13 +1,10 @@
-// Variáveis de movimento
-speed_h = 0; // Velocidade horizontal
-speed_v = 0; // Velocidade vertical
+// --- CREATE (oTropiAttack) ---
+// Match Hotspot behaviour
+// Don’t overwrite speed_h / speed_v here, so they can be set externally
+max_speed_v = 15;
 
-// "Física" do projétil
-max_speed_v = 15;    // Velocidade máxima de queda
+gravity_effect = 0.35; 
+bounce_dampen = 0.9;
 
 x_remainder = 0;
 y_remainder = 0;
-bounce_dampen = 0.99; // Reduces bounce speed over time
-
-// We'll rename this to be consistent with the other attack object
-gravity_effect = 0.4;

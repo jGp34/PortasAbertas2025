@@ -121,34 +121,6 @@ function chimpanzini_attack(){
 		audio_play_sound(sfxChimpanziniAttack, 1, false)
 		attack_timer = attack_cooldown; 
 
-		if (instance_number(oChimpanziniAttack) >= 5) {
-			var oldest = noone;
-			var oldest_time = 999999999;
-
-			var attack_list = array_create(instance_number(oChimpanziniAttack));
-			var index = 0;
-
-			with (oChimpanziniAttack) {
-				attack_list[index++] = id;
-			}
-
-			for (var i = 0; i < array_length(attack_list); i++) {
-				var inst = attack_list[i];
-				if (variable_instance_exists(inst, "time_created")) {
-					if (inst.time_created < oldest_time) {
-						oldest_time = inst.time_created;
-						oldest = inst;
-					}
-				}
-			}
-
-			if (oldest != noone) {
-				with (oldest) {
-					instance_destroy();
-				}
-			}
-		}
-
 		var _attack_offset = 0;
 		var _attack_x = x;
 		var _attack_y = y + 32;
@@ -161,40 +133,12 @@ function chimpanzini_attack(){
 	attack_counter();
 }
 
-
 function lirili_attack(){
 	if (can_attack && key_attack) {
 		can_attack = false;
 		audio_play_sound(sfxLiriliAttack, 1, false)
 		attack_timer = attack_cooldown; 
-		if (instance_number(oLiriliAttack) >= 4) {
-			var oldest = noone;
-			var oldest_time = 999999999;
-
-			var attack_list = array_create(instance_number(oLiriliAttack));
-			var index = 0;
-
-			with (oLiriliAttack) {
-				attack_list[index++] = id;
-			}
-
-			for (var i = 0; i < array_length(attack_list); i++) {
-				var inst = attack_list[i];
-				if (variable_instance_exists(inst, "time_created")) {
-					if (inst.time_created < oldest_time) {
-						oldest_time = inst.time_created;
-						oldest = inst;
-					}
-				}
-			}
-
-			if (oldest != noone) {
-				with (oldest) {
-					instance_destroy();
-				}
-			}
-		}
-
+		
 		var _attack_offset = 0;
 		var _attack_x = x;
 		var _attack_y = y + 16;
@@ -499,35 +443,7 @@ function garam_attack() {
 		atk3.direction = -attack_direction;
 		atk3.image_xscale = (attack_direction == 1) ? 1 : -1;
 
-		// Attack 4 (Slowness mine, limit to 3)
-		if (instance_number(oGaramAttack4) >= 3) {
-			var oldest = noone;
-			var oldest_time = 999999999;
-
-			var attack_list = array_create(instance_number(oGaramAttack4));
-			var index = 0;
-
-			with (oGaramAttack4) {
-				attack_list[index++] = id;
-			}
-
-			for (var i = 0; i < array_length(attack_list); i++) {
-				var inst = attack_list[i];
-				if (variable_instance_exists(inst, "time_created")) {
-					if (inst.time_created < oldest_time) {
-						oldest_time = inst.time_created;
-						oldest = inst;
-					}
-				}
-			}
-
-			if (oldest != noone) {
-				with (oldest) {
-					instance_destroy();
-				}
-			}
-		}
-
+		// Attack 4 (Slowness mine, unlimited now)
 		var offset4 = 32;
 		var ax4 = x;
 		var ay4 = y + 32;
@@ -676,26 +592,11 @@ function tropi_attack() {
         audio_play_sound(sfxTropiAttack, 1, false);
         attack_timer = attack_cooldown;
 
-        // Your instance limit logic (remains unchanged)
-        if (instance_number(oTropiAttack) >= 5) {
-            var oldest_instance = noone;
-            var oldest_time = 9999999999;
-            with (oTropiAttack) {
-                if (time_created < oldest_time) {
-                    oldest_time = time_created;
-                    oldest_instance = id;
-                }
-            }
-            if (instance_exists(oldest_instance)) {
-                instance_destroy(oldest_instance);
-            }
-        }
-
-        // Your spawn position logic (remains unchanged)
+        // Spawn position
         var _attack_x = x + 32;
         var _attack_y = y + 32;
 
-        // Your instance creation logic (remains unchanged)
+        // Create attack instance
         var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oTropiAttack);
 
         // --- START: CORRECTED NUDGE LOGIC ---
@@ -724,7 +625,7 @@ function tropi_attack() {
         }
         // --- END: CORRECTED NUDGE LOGIC ---
 
-        // Your attack property logic (remains unchanged)
+        // Attack properties
         _attack_instance.speed_h = 8 * attack_direction;
         _attack_instance.speed_v = -4;
         _attack_instance.time_created = current_time;
@@ -1033,4 +934,54 @@ function matteo_attack() {
     }
     
     attack_counter(); // This handles the cooldown after the initial throw
+}
+
+function cocofanto_attack() {
+	// PRIORITY 1: Check for an instant bonus shot first.
+	// This action ignores the main cooldown (`can_attack`).
+	if (key_attack && bonus_ranged_shots > 0) {
+		bonus_ranged_shots -= 1;
+		audio_play_sound(sfxCocofantoAttack2, 1, false); // Ranged sound
+		
+		var _attack_offset = 40;
+		var _attack_x = x + (_attack_offset * attack_direction);
+		var _attack_y = y + 24;
+		
+		// Create the RANGED bullet object
+		var _bullet = instance_create_layer(_attack_x, _attack_y, "Instances", oCocofantoAttack2);
+		_bullet.horizontal_speed = 10 * attack_direction;
+		_bullet.image_xscale = (attack_direction == 1) ? 1 : -1;
+	}
+	// PRIORITY 2: If no bonus shot was fired, try a normal attack.
+	// This "else if" is crucial to prevent firing two attacks on one press.
+	// This action respects the cooldown.
+	else if (can_attack && key_attack) {
+		can_attack = false;
+		attack_timer = attack_cooldown;
+
+		var _attack_offset = 40;
+		var _attack_x = x + (_attack_offset * attack_direction);
+		var _attack_y = y + 24;
+
+		// Check if the normal attack should be ranged or melee
+		if (has_ranged_shot) {
+			has_ranged_shot = false;
+			audio_play_sound(sfxCocofantoAttack2, 1, false); // Ranged sound
+
+			// Create the RANGED bullet object
+			var _bullet = instance_create_layer(_attack_x, _attack_y, "Instances", oCocofantoAttack2);
+			_bullet.horizontal_speed = 10 * attack_direction;
+			_bullet.image_xscale = (attack_direction == 1) ? 1 : -1;
+		} else {
+			audio_play_sound(sfxCocofantoAttack, 1, false); // Melee sound
+
+			// Create the MELEE attack object
+			var _melee = instance_create_layer(_attack_x, _attack_y, "Instances", oCocofantoAttack1);
+			_melee.owner_id = id;
+			_melee.image_xscale = (attack_direction == 1) ? 1 : -1;
+		}
+	}
+	
+	// The cooldown timer for the normal attack always runs.
+	attack_counter();
 }
