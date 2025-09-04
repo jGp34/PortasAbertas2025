@@ -985,3 +985,40 @@ function cocofanto_attack() {
 	// The cooldown timer for the normal attack always runs.
 	attack_counter();
 }
+
+function tob_attack() {
+	if (can_attack && key_attack) {
+		can_attack = false;
+		attack_timer = attack_cooldown;
+		audio_play_sound(sfxTobAttack, 1, false);
+
+		var _attack_offset = 24;
+		// Use the consistent 'attack_direction' variable, not image_xscale
+		var _attack_x = x + (_attack_offset * attack_direction); 
+		var _attack_y = y;
+
+		var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oTobAttack);
+
+		// Set the initial direction for the tumbleweed
+		with (_attack_instance) {
+			// --- THIS IS THE FIX ---
+			// Read the player's 'attack_direction' variable directly.
+			attack_direction = other.attack_direction;
+			
+			// --- NUDGE LOGIC ---
+			var _max_nudges = 32;
+			var _nudge_count = 0;
+			
+			while (place_meeting(x, y, oObstacle) && _nudge_count < _max_nudges) {
+				x -= attack_direction;
+				_nudge_count++;
+			}
+			_nudge_count = 0;
+			while (place_meeting(x, y, oObstacle) && _nudge_count < _max_nudges) {
+				y += 1;
+				_nudge_count++;
+			}
+		}
+	}
+	attack_counter();
+}

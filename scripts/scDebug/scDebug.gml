@@ -1,49 +1,70 @@
 function ManualTransform() {
-    // 1. Determine the direction of change
-    var _change_direction = 0;
-    if (keyboard_check_pressed(vk_enter)) {
-        _change_direction = 1;  // Forward
-    } else if (keyboard_check_pressed(vk_backspace)) {
-        _change_direction = -1; // Reverse
-    }
+	// In ManualTransform() - REVISED AND FIXED SCRIPT
 
-    // 2. If no relevant key was pressed, exit the function
-    if (_change_direction == 0) {
-        return;
-    }
+	// 1. Determine the direction of change
+	var _change_direction = keyboard_check_pressed(vk_enter) - keyboard_check_pressed(vk_backspace);
 
-    // --- The rest of the logic is now shared ---
+	// 2. If no relevant key was pressed, exit the function
+	if (_change_direction == 0) {
+	    return;
+	}
 
-    var px = x;
-    var py = y;
+	// --- The rest of the logic is now shared ---
 
-    StopTransformSound();
+	// Store the old instance's properties
+	var _px = x;
+	var _py = y;
+	var _old_id = id;
 
-    // 3. Find current character's index in the global list
-    var current_index = -1;
-    var list_length = array_length(global.character_list);
-    for (var i = 0; i < list_length; i++) {
-        if (global.character_list[i] == object_index) {
-            current_index = i;
-            break;
-        }
-    }
+	StopTransformSound();
 
-    // Safety check in case the character isn't in the list
-    if (current_index == -1) return;
+	// 3. Find current character's index in the global list
+	var _current_index = -1;
+	var _list_length = array_length(global.character_list);
+	for (var i = 0; i < _list_length; i++) {
+	    if (global.character_list[i] == object_index) {
+	        _current_index = i;
+	        break;
+	    }
+	}
 
-    // 4. Calculate the next index using the direction
-    // This formula correctly wraps around in both directions
-    var next_index = (current_index + _change_direction + list_length) mod list_length;
-    var new_player = global.character_list[next_index];
+	// Safety check in case the character isn't in the list
+	if (_current_index == -1) return;
 
-    // 5. Perform the transformation
-    instance_change(new_player, true);
+	// 4. Calculate the next index
+	var _next_index = (_current_index + _change_direction + _list_length) mod _list_length;
+	var _new_player_obj = global.character_list[_next_index];
 
-    // Restore position and reset vertical speed to prevent physics issues
-    x = px;
-    y = py;
-    if (vspeed < 0) vspeed = 0;
+	// 5. Perform the transformation SAFELY
+	// Create the new player at the old position
+	var _new_inst = instance_create_depth(_px, _py, depth, _new_player_obj);
+
+	// Prevent the new instance from inheriting weird physics momentum
+	if (_new_inst.vert_speed < 0) {
+	    _new_inst.vert_speed = 0;
+	}
+
+	// Now, destroy the old player instance (this one)
+	instance_destroy();
+
+	// Because the old instance is now destroyed, we need to stop this script.
+	// The cleanup of old attacks happens below, but we run it from the NEW instance.
+	with (_new_inst)
+	{
+	    // Clean up Hotspot's attack
+	    with (oHotspotAttack) {
+	        if (owner_id == _old_id) {
+	            instance_destroy();
+	        }
+	    }
+
+	    // Clean up Matteo's spike ball
+	    with (oMatteoAttack) {
+	        if (owner == _old_id) {
+	            instance_destroy();
+	        }
+	    }
+	}
 }
 
 function ChangeMode() 
