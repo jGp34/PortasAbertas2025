@@ -1161,3 +1161,22 @@ function blueberrinni_attack() {
     attack_counter();
 }
 
+function bananita_attack(){
+    if (can_attack && key_attack) {
+        can_attack = false;
+        audio_play_sound(sfxBananitaAttack, 1, false)
+        attack_timer = attack_cooldown; 
+        
+        var _attack_offset = 32;
+        var _attack_x = x + (_attack_offset * attack_direction);
+        var _attack_y = y + 24;
+        
+        var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oBananitaAttack);    
+        _attack_instance.attack_dir = attack_direction;
+		_attack_instance.horizontal_speed = 7.5 * attack_direction;
+		_attack_instance.direction = attack_direction;
+		_attack_instance.image_xscale = (attack_direction == 1) ? -1 : 1;
+    }
+    
+    attack_counter();
+}

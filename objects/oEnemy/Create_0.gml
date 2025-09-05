@@ -14,7 +14,7 @@ dance_timer = 0;
 dance_flip_timer = 0;
 dance_flip_interval = 0.5 * game_get_speed(gamespeed_fps);
 projectiles_hit_by = [];
-
+is_charmed = false;
 // --- Core Methods (to be overridden by children) ---
 
 function handle_movement() {

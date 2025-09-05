@@ -10,6 +10,7 @@
     {"$GMEvent":"v1","%Name":"","collisionObjectId":{"name":"oTatataAttack","path":"objects/oTatataAttack/oTatataAttack.yy",},"eventNum":0,"eventType":4,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":{"name":"oFrigoAttack","path":"objects/oFrigoAttack/oFrigoAttack.yy",},"eventNum":0,"eventType":4,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":{"name":"oSigmaAttack","path":"objects/oSigmaAttack/oSigmaAttack.yy",},"eventNum":0,"eventType":4,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","eventNum":0,"eventType":4,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"oEnemy",

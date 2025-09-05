@@ -37,7 +37,7 @@ function StopTransformSound(){
 	audio_stop_sound(sfxChicletera);
 	audio_stop_sound(sfxCocofanto);
 	audio_stop_sound(sfxCrocodildo);
-	audio_stop_sound(sfxDolfinita);
+	audio_stop_sound(sfxBananita);
 	audio_stop_sound(sfxEspressona);
 	audio_stop_sound(sfxFootera);
 	audio_stop_sound(sfxOrangutini);
