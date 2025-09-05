@@ -1110,3 +1110,54 @@ function crocodildo_attack() {
         music_timer--;
     }
 }
+
+function blueberrinni_attack() {
+    if (can_attack && key_attack) {
+        can_attack = false;
+        attack_timer = attack_cooldown;
+        audio_play_sound(sfxBlueberrinniAttack, 1, false);
+		
+		var _radius = 96;
+		with(oEnemy)
+		{
+			if(distance_to_object(other) <= _radius)
+			{
+				if(variable_instance_exists(id, "move"))
+				{
+					move *= -1;
+				}
+				if(variable_instance_exists(id, "hspd"))
+				{
+					hspd *= -1;
+				}
+			}
+		}
+		instance_create_layer(x, y, "Instances", oBlueberrinniExplosionFlash)
+        var _proj_speed = 6.5;
+        var _base_dir = (attack_direction == 1) ? 0 : 180;
+
+        // --- Create 3 Projectiles (New Method) ---
+        // We now pass variables inside a struct {} right when we create the instance.
+
+        // Projectile 1: Straight
+        instance_create_layer(x, y, "Instances", oBlueberrinniAttack, {
+            speed: _proj_speed,
+            direction: _base_dir
+        });
+
+        // Projectile 2: Upwards
+        instance_create_layer(x, y, "Instances", oBlueberrinniAttack, {
+            speed: _proj_speed,
+            direction: _base_dir - 45 * attack_direction
+        });
+
+        // Projectile 3: Downwards
+        instance_create_layer(x, y, "Instances", oBlueberrinniAttack, {
+            speed: _proj_speed,
+            direction: _base_dir + 45 * attack_direction
+        });
+    }
+
+    attack_counter();
+}
+
