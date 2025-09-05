@@ -1022,3 +1022,26 @@ function tob_attack() {
 	}
 	attack_counter();
 }
+
+function sigma_attack(){
+	if (can_attack && key_attack) {
+		can_attack = false;
+		// Make sure to create this sound effect in your asset browser!
+		audio_play_sound(sfxSigmaAttack, 1, false);
+		attack_timer = attack_cooldown; 
+		
+		// Adjust spawn position to fit Sigma's sprite
+		var _attack_offset = 32;
+		var _attack_x = x + (_attack_offset * attack_direction);
+		var _attack_y = y + 24;
+		
+		// Create the projectile
+		var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oSigmaAttack);
+		
+		// Set the projectile's initial properties
+		_attack_instance.direction_multiplier = attack_direction;
+		_attack_instance.image_xscale = (attack_direction == 1) ? -1 : 1;
+	}
+	
+	attack_counter();
+}
