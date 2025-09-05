@@ -1,4 +1,4 @@
-audio_stop_sound(sfxBombardinoAttack);
+audio_stop_sound(sfxBombardinoAttack1);
 audio_play_sound(sfxExplosion, 1, false);
 var fx = instance_create_layer(x, y, "Instances", oBombardinoExplosionFlash);
 with (oEnemy) {

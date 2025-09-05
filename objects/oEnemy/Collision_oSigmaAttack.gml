@@ -1,36 +1,21 @@
-// --- Anti-Multi-Hit Logic ---
+// This is the complete collision event for the PARENT oEnemy
 
-// Get the unique ID of the projectile that just hit us.
+// Get the unique ID of the projectile
 var _projectile_id = other.id;
 
-// Check if we've already been hit by this specific projectile instance.
-// This prevents one projectile from applying its effect multiple times.
-for (var i = 0; i < array_length(projectiles_hit_by); i++) {
-    if (projectiles_hit_by[i] == _projectile_id) {
-        // If we found it, do nothing and exit the event.
-        exit;
-    }
+// Check if we've been hit by this projectile before
+if (array_contains(projectiles_hit_by, _projectile_id)) {
+    exit; // Already hit by this projectile, do nothing.
 }
 
-// If we're here, it's a new hit. Add its ID to our list so it can't hit us again.
+// Add its ID to the list
 array_push(projectiles_hit_by, _projectile_id);
 
-
-// --- Freeze/Shatter Logic ---
-
-// If we are already frozen from a previous hit...
+// Apply the same freeze or destroy logic
 if (is_frozen) {
-    // ...this is the second hit. Shatter and destroy the enemy.
-    // You could add a shatter sound/effect here for more impact!
+    // Second hit: destroy the enemy.
     instance_destroy();
-}
-// Otherwise, this is the first hit...
-else {
-    // ...so we freeze.
-    is_frozen = true;
-    image_blend = c_aqua; // The classic freeze color
-    
-    // Use your enemy's specific speed variable to stop it.
-    // I'm using 'speed_' based on your Frigo example.
-    speed_ = 0; 
+} else {
+    // First hit: apply the freeze effect.
+    apply_freeze_effect(); // This calls the correct version for each enemy type!
 }

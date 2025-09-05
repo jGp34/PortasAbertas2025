@@ -6,8 +6,8 @@
   "name":"oGround",
   "overriddenProperties":[],
   "parent":{
-    "name":"enviroment",
-    "path":"folders/Objects/enviroment.yy",
+    "name":"tiles",
+    "path":"folders/Objects/tiles.yy",
   },
   "parentObjectId":{
     "name":"oObstacle",

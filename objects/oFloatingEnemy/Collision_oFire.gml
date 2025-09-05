@@ -1,3 +1,2 @@
-audio_play_sound(sfxTransform, 1, false);
-instance_destroy();
+event_inherited();
 global.enraged_floating_enemy_queue++;

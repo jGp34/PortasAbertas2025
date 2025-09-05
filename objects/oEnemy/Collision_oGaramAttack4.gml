@@ -1,1 +1,1 @@
-speed_ /= 2;
+apply_slow(0.5);

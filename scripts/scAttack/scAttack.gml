@@ -89,7 +89,7 @@ function bombardino_attack(){
 		can_attack = false;
 		attack_timer = attack_cooldown; 
 		if(vert_speed != 0){
-			audio_play_sound(sfxBombardinoAttack, 1, false)
+			audio_play_sound(sfxBombardinoAttack1, 1, false)
 		
 			var _attack_offset = 0;
 			var _attack_x = x;
@@ -589,7 +589,7 @@ function burbaloni_attack() {
 function tropi_attack() {
     if (can_attack && key_attack) {
         can_attack = false;
-        audio_play_sound(sfxTropiAttack, 1, false);
+        audio_play_sound(sfxTropiAttack1, 1, false);
         attack_timer = attack_cooldown;
 
         // Spawn position
@@ -638,7 +638,7 @@ function cacto_attack() {
     if (can_attack && key_attack) {
         can_attack = false;
         // Make sure you create this sound effect!
-        audio_play_sound(sfxCactoAttack, 1, false);
+        audio_play_sound(sfxCactoAttack1, 1, false);
         attack_timer = attack_cooldown; 
         
         var _attack_x = x;
@@ -709,7 +709,7 @@ function tric_attack() {
             tric_timer--;
             if (tric_timer <= 0) {
                 // Time to fire a bullet
-                audio_play_sound(sfxTricAttack, 1, false);
+                audio_play_sound(sfxTricAttack1, 1, false);
                 
                 // Calculate bullet spawn position
                 var _attack_offset = 40;
@@ -868,7 +868,7 @@ function golubiro_attack() {
             
             // --- MODE 1: FIRE THE STUN CONE ---
             case COMBO_ATTACK_MODE.STUN_CONE:
-                audio_play_sound(sfxGolubiroAttack, 1, false); // Create this sound
+                audio_play_sound(sfxGolubiroAttack1, 1, false); // Create this sound
                 
                 // Create the cone effect object
                 var _cone = instance_create_layer(x, y, "Instances", oGolubiroAttack1);
@@ -921,7 +921,7 @@ function matteo_attack() {
             
             // Store the ball's ID so we know it's out
             spike_ball_instance = _ball;
-			audio_play_sound(sfxMatteoAttack, 1, false);
+			audio_play_sound(sfxMatteoAttack1, 1, false);
         }
         // If the ball IS out, recall it
         else {
@@ -973,7 +973,7 @@ function cocofanto_attack() {
 			_bullet.horizontal_speed = 10 * attack_direction;
 			_bullet.image_xscale = (attack_direction == 1) ? 1 : -1;
 		} else {
-			audio_play_sound(sfxCocofantoAttack, 1, false); // Melee sound
+			audio_play_sound(sfxCocofantoAttack1, 1, false); // Melee sound
 
 			// Create the MELEE attack object
 			var _melee = instance_create_layer(_attack_x, _attack_y, "Instances", oCocofantoAttack1);
@@ -1044,4 +1044,69 @@ function sigma_attack(){
 	}
 	
 	attack_counter();
+}
+
+function crocodildo_attack() {
+    // --- Handle Player Input ---
+    if (key_attack) {
+        // ACTION 1: Cast the main AoE Dance Attack
+        if (can_cast_main_attack && !is_shielded) {
+            can_cast_main_attack = false;
+            main_attack_timer = main_attack_cooldown;
+            is_main_attack_active = true;
+            can_cast_shield = true;
+            
+            // Start the 10-second timer for the music
+            music_timer = 10 * game_get_speed(gamespeed_fps);
+            
+            audio_stop_sound(sfxCrocodildo);
+            audio_play_sound(sfxCrocodildoAttack1, 1, false);
+            
+            instance_create_layer(x, y, "Instances", oCrocodildoFlash1);
+
+            var _aoe_radius = 500;
+            var _dance_duration = 10 * game_get_speed(gamespeed_fps);
+            with (oEnemy) {
+                if (distance_to_object(other) <= _aoe_radius) {
+                    start_dancing(_dance_duration);
+                }
+            }
+        }
+        // ACTION 2: Activate the Shield
+        // NEW condition: Check if the music_timer is still greater than 0
+        else if (is_main_attack_active && can_cast_shield && !is_shielded && music_timer > 0) {
+            can_cast_shield = false;
+            shield_attack_timer = shield_attack_cooldown;
+            audio_play_sound(sfxCrocodildoAttack2, 1, false);
+
+            is_shielded = true;
+            shield_timer = shield_duration;
+            rainbow_hue = 0;
+        }
+    }
+
+    // --- Handle Cooldowns ---
+    // Main attack cooldown timer (this remains the same)
+    if (!can_cast_main_attack) {
+        main_attack_timer--;
+        if (main_attack_timer <= 0) {
+            can_cast_main_attack = true;
+            is_main_attack_active = false;
+            can_cast_shield = false;
+        }
+    }
+    
+    // Shield ability cooldown timer (this remains the same)
+    if (is_main_attack_active && !can_cast_shield) {
+        shield_attack_timer--;
+        if (shield_attack_timer <= 0) {
+            can_cast_shield = true;
+        }
+    }
+    
+    // NEW: Music duration timer
+    // This timer runs down independently during the main attack's active window.
+    if (is_main_attack_active && music_timer > 0) {
+        music_timer--;
+    }
 }

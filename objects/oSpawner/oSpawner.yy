@@ -9,8 +9,8 @@
   "name":"oSpawner",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objects",
-    "path":"folders/Objects.yy",
+    "name":"other",
+    "path":"folders/Objects/other.yy",
   },
   "parentObjectId":null,
   "persistent":false,

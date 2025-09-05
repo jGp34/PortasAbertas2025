@@ -1,6 +1,7 @@
-// Floating Enemy - Create Event
+// Inherit all the status effect logic from oEnemy
+event_inherited();
 
-// State machine setup
+// --- State Machine ---
 enum ENEMY_STATE {
     FLOATING,
     FALLING,
@@ -8,26 +9,82 @@ enum ENEMY_STATE {
 }
 state = ENEMY_STATE.FLOATING;
 
-// Movement variables
+// --- Floating-specific Properties ---
 speed_ = 3;
 OG_SPEED = speed_;
+gravity_ = 0.5;
+
+// Initialize movement
 hspd = choose(-1, 1) * speed_;
 vspd = choose(-1, 1) * speed_;
-gravity_ = 0.5; // You can adjust this value to change how fast it falls
 
-// Existing variables
-depth = -10;
-is_poisoned = false;
-poison_timer = 0;
-is_frozen = false;
-projectiles_hit_by = [];
-is_stunned = false;
-stun_timer = 0;
+// --- Override Parent Methods ---
 
-function get_stunned(duration) {
-    is_stunned = true;
-    stun_timer = duration;
-    speed_ = 0;
-	hspd = 0;
-	vspd = 0;
+/// @override
+function stop_movement() {
+    hspd = 0;
+    vspd = 0;
+    if (state == ENEMY_STATE.FLOATING) {
+        state = ENEMY_STATE.FALLING;
+    }
+}
+
+/// @override
+function restore_movement() {
+    speed_ = OG_SPEED;
+    hspd = choose(-1, 1) * speed_;
+    vspd = choose(-1, 1) * speed_;
+    state = ENEMY_STATE.FLOATING; // Go back to floating
+}
+
+/// @override
+function handle_movement() {
+    // This function now ONLY handles the active floating behavior.
+    if (state == ENEMY_STATE.FLOATING) {
+        floatingMovement();
+    }
+}
+
+/// @override
+function apply_physics() {
+    // This function handles the physics of falling and being on the ground.
+    switch (state) {
+        case ENEMY_STATE.FALLING:
+            vspd += gravity_;
+            if (place_meeting(x, y + vspd, oObstacle)) {
+                while (!place_meeting(x, y + 1, oObstacle)) {
+                    y += 1;
+                }
+                vspd = 0;
+                state = ENEMY_STATE.STUCK;
+            }
+            y += vspd;
+            break;
+
+        case ENEMY_STATE.STUCK:
+            // Does nothing while stuck on the ground
+            break;
+    }
+}
+
+/// @override
+function apply_freeze_effect() {
+    is_frozen = true;
+    image_blend = c_aqua;
+    stop_movement();
+
+    if (state == ENEMY_STATE.FLOATING) {
+        state = ENEMY_STATE.FALLING;
+    }
+}
+
+/// @override
+function apply_slow(multiplier) {
+    // First, apply the base slow to speed_ and OG_SPEED
+    speed_ *= multiplier;
+    OG_SPEED *= multiplier;
+    
+    // NOW, apply the same slow to the actual movement variables
+    hspd *= multiplier;
+    vspd *= multiplier;
 }

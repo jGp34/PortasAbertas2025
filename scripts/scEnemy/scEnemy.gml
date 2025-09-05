@@ -65,3 +65,20 @@ function get_stunned(duration) {
     is_stunned = true;
     stun_timer = duration;
 }
+
+/// @function enApplyGravity()
+/// @description Applies gravity and handles vertical collision for ground-based objects.
+function enApplyGravity() {
+    // Apply gravity force
+    vspd += grav;
+
+    // Check for collision with the ground
+    if (place_meeting(x, y + vspd, oObstacle)) {
+        // Move pixel by pixel until just before the obstacle
+        while (!place_meeting(x, y + 1, oObstacle)) {
+            y += 1;
+        }
+        vspd = 0; // Stop vertical movement
+    }
+    y += vspd;
+}

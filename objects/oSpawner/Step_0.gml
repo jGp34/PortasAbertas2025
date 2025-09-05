@@ -7,7 +7,7 @@ if (last_spawn > 10) {
 		spawn_timer = 0;
 		var roll = random(1);
 		if (roll < 0.1) {
-			var big = instance_create_layer(x, y, "Instances", oBigEnemy);
+			var big = instance_create_layer(x, y, "Instances", oBigGroundEnemy);
 			big.enraged = false;
 		}
 		else if (roll < 0.3) {
@@ -15,16 +15,16 @@ if (last_spawn > 10) {
 			floaty.enraged = false;
 		}
 		else {
-			var normal_enemy = instance_create_layer(x, y, "Instances", oEnemy);
+			var normal_enemy = instance_create_layer(x, y, "Instances", oGroundEnemy);
 			normal_enemy.enraged = false;
 		}
 	}
 	
-	else if (global.enraged_enemy_queue > 0) {
-		global.enraged_enemy_queue--;
+	else if (global.enraged_ground_enemy_queue > 0) {
+		global.enraged_ground_enemy_queue--;
 		last_spawn = 0;
 
-		var angry_enemy = instance_create_layer(x, y, "Instances", oEnragedEnemy);
+		var angry_enemy = instance_create_layer(x, y, "Instances", oEnragedGroundEnemy);
 		angry_enemy.enraged = true;
 	}
 	else if (global.enraged_floating_enemy_queue > 0) {
@@ -34,11 +34,11 @@ if (last_spawn > 10) {
 		var angry_enemy = instance_create_layer(x, y, "Instances", oEnragedFloatingEnemy);
 		angry_enemy.enraged = true;
 	}
-	else if (global.enraged_big_enemy_queue > 0) {
-		global.enraged_big_enemy_queue--;
+	else if (global.enraged_big_ground_enemy_queue > 0) {
+		global.enraged_big_ground_enemy_queue--;
 		last_spawn = 0;
 
-		var angry_big = instance_create_layer(x, y, "Instances", oEnragedBigEnemy);
+		var angry_big = instance_create_layer(x, y, "Instances", oEnragedBigGroundEnemy);
 		angry_big.enraged = true;
 	}
 }

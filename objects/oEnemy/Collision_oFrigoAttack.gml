@@ -1,31 +1,21 @@
-// oEnemy - Collision with oFrigoAttack
+// This is the complete collision event for the PARENT oEnemy
 
-// Get the unique ID of the projectile that just hit us
+// Get the unique ID of the projectile
 var _projectile_id = other.id;
 
-// Check if this projectile's ID is already in our list
-for (var i = 0; i < array_length(projectiles_hit_by); i++) {
-    if (projectiles_hit_by[i] == _projectile_id) {
-        // If we found it, it means this projectile has hit us before.
-        // Do nothing and exit the event.
-        exit;
-    }
+// Use array_contains for a cleaner check to see if we've been hit before
+if (array_contains(projectiles_hit_by, _projectile_id)) {
+    exit; // Already hit by this projectile, do nothing.
 }
 
-// If we're here, it's a new projectile.
-// 1. Add its ID to our list so it can't hit us again.
+// If not, add its ID to the list to prevent future hits from the same projectile
 array_push(projectiles_hit_by, _projectile_id);
 
-// 2. Now, apply the freeze/damage logic.
-// If we are already frozen from a PREVIOUS attack...
+// Now, apply the freeze or destroy logic
 if (is_frozen) {
-    // ...this is the second hit. Destroy ourselves.
+    // If we're already frozen, this is the second hit. Destroy the enemy.
     instance_destroy();
-}
-// Otherwise, this is the first hit...
-else {
-    // ...so we freeze.
-    is_frozen = true;
-    image_blend = c_aqua;
-    speed_ = 0; // Use your enemy's speed variable
+} else {
+    // This is the first hit. Apply the standard freeze effect.
+    apply_freeze_effect();
 }
