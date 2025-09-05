@@ -35,14 +35,12 @@ switch (state) {
         // Is the space to our relative right empty?
         if (!place_meeting(_x_right, _y_right, oObstacle)) {
             // Yes, it's a ledge. Turn 90 degrees to the right to wrap around it.
-			show_debug_message("Ledge");
             direction -= 90 * attack_direction;
             
         // --- 3. Check for Walls (Inner Corners) ---
         // If there's ground to our right, is there a wall directly ahead?
         } else if (place_meeting(_x_ahead, _y_ahead, oObstacle)) {
             // Yes, it's a wall. Turn 90 degrees to the left to climb it.
-			show_debug_message("Wall");
             direction += 90 * attack_direction;
         }
         

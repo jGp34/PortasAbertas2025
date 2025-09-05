@@ -1,51 +1,33 @@
-var _old_player_id = id;
-with (oHotspotAttack) {
-    if (owner_id == _old_player_id) {
-        instance_destroy();
-    }
-}
-
-// Clean up Matteo's spike ball (using the correct 'owner' variable)
-with (oMatteoAttack) {
-    if (owner == _old_player_id) {
-        instance_destroy();
-    }
-}
-
 if (global.mode == 1) {
-    // --- THIS IS THE CORRECTED LOGIC ---
-
-    // 1. Save the current position, but most importantly, the bottom of the hitbox.
+    // 1. Store the current state, INCLUDING direction.
     var px = x;
-    var p_bottom = bbox_bottom; // The key! We save the "feet" position.
-
-    // This part of your code is fine.
+    var p_bottom = bbox_bottom;
+    var p_xscale = image_xscale;         // <-- Save current visual direction
+    var p_attack_dir = attack_direction; // <-- Save current attack direction
+    
     StopTransformSound();
-    var new_player;
+
+    // 2. Select a new, different character.
+    var new_player_obj;
     do {
         var index = irandom(array_length(global.character_list) - 1);
-        new_player = global.character_list[index];
-    } until (new_player != object_index);
+        new_player_obj = global.character_list[index];
+    } until (new_player_obj != object_index);
 
-    // 2. Change the instance. The code from here on is executed by the NEW object.
-    instance_change(new_player, true);
+    // 3. Create a fresh instance of the new character.
+    var new_inst = instance_create_depth(px, y, depth, new_player_obj);
 
-    // 3. Restore the horizontal position and adjust the vertical position.
-    x = px;
-    // This calculation adjusts the new sprite's 'y' so its feet are where the old one's were.
-    y += p_bottom - bbox_bottom;
+    // 4. Apply the old character's state to the new one.
+    with (new_inst) {
+        // Restore the saved direction
+        image_xscale = p_xscale;
+        attack_direction = p_attack_dir;
+        
+        // Adjust position and speed
+        y += p_bottom - bbox_bottom;
+        vert_speed = 0;
+    }
 
-    // Reset vertical speed to prevent carrying over a falling speed.
-    vert_speed = 0;
-
-} else if (global.mode == 2) {
-    // This mode seems fine as is.
-    var px = x;
-    var py = y;
-    var current_depth = depth;
-
-    StopTransformSound();
-
-    instance_create_depth(px, py, current_depth, object_index);
+    // 5. Destroy the old instance.
     instance_destroy();
 }
