@@ -1239,13 +1239,7 @@ function footera_attack() {
             break;
 
         // --- STATE: ATTACK_JUMP ---
-        case FOOTERA_STATE.ATTACK_JUMP:
-            // Kill enemies on contact.
-            var _enemy = instance_place(x, y, oEnemy);
-            if (_enemy != noone) {
-                with (_enemy) { instance_destroy(); }
-            }
-            
+        case FOOTERA_STATE.ATTACK_JUMP:            
             // Check for conditions to end the jump.
             var _hit_obstacle = place_meeting(x + horz_speed, y, oObstacle) || place_meeting(x, y + vert_speed, oObstacle);
             if (key_attack || _hit_obstacle) {
