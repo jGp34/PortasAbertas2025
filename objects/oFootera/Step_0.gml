@@ -9,3 +9,13 @@ if (attack_state != FOOTERA_STATE.NORMAL) {
     // Prevent the player from moving left or right during the attack.
     horz_speed = 0; 
 }
+
+// Add this to the END of your oFootera Step Event
+
+// Handle post-landing invulnerability countdown
+if (invulnerability_timer > 0) {
+    invulnerability_timer -= 1;
+    if (invulnerability_timer <= 0) {
+        is_invulnerable = false;
+    }
+}

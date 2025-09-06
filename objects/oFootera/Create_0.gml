@@ -9,3 +9,4 @@ enum FOOTERA_STATE {
 }
 attack_state = FOOTERA_STATE.NORMAL;
 is_invulnerable = false;
+invulnerability_timer = 0;

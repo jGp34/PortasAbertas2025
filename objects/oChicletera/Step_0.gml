@@ -1,2 +1,2 @@
 event_inherited();
-tralalero_attack();
+chicletera_attack();

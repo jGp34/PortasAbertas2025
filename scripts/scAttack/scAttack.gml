@@ -1238,7 +1238,7 @@ function footera_attack() {
             attack_counter();
             break;
 
-        // --- STATE: ATTACK JUMP ---
+        // --- STATE: ATTACK_JUMP ---
         case FOOTERA_STATE.ATTACK_JUMP:
             // Kill enemies on contact.
             var _enemy = instance_place(x, y, oEnemy);
@@ -1253,7 +1253,7 @@ function footera_attack() {
             }
             break;
 
-        // --- STATE: ATTACK FALL ---
+        // --- STATE: ATTACK_FALL ---
         case FOOTERA_STATE.ATTACK_FALL:
             // Override normal gravity with a fast, constant downward speed.
             vert_speed = 15; 
@@ -1274,11 +1274,75 @@ function footera_attack() {
                 _proj_right.hspeed *= -1; // Reverse horizontal speed
                 _proj_right.image_xscale *= -1; // Flip sprite
                 
-                // --- RESET EVERYTHING ---
+                // --- RESET STATE & START INVULNERABILITY TIMER ---
                 attack_state = FOOTERA_STATE.NORMAL;
-                is_invulnerable = false;
+                
+                // THIS IS THE CHANGED LINE:
+                // Instead of is_invulnerable = false, we start the timer.
+                invulnerability_timer = game_get_speed(gamespeed_fps) / 4; // 1/4 of a second
+                
                 vert_speed = 0; // Stop all vertical movement
             }
             break;
     }
+}
+
+function orangutini_attack() {
+    if (can_attack && key_attack) {
+        can_attack = false;
+        attack_timer = attack_cooldown;
+        // Make sure to create this sound effect
+        audio_play_sound(sfxOrangutiniAttack, 1, false);
+
+        // Adjust spawn position to fit Orangutini's sprite
+        var _attack_offset = 26;
+        var _attack_x = x + (_attack_offset * attack_direction);
+        var _attack_y = y + 32;
+
+        var _attack_instance = instance_create_layer(_attack_x, _attack_y, "Instances", oOrangutiniAttack);
+        
+        // Tell the projectile which way to go
+        _attack_instance.direction_facing = attack_direction;
+    }
+
+    attack_counter();
+}
+
+function chicletera_attack() {
+    // Part 1: Logic that runs WHILE the speed boost is active
+    if (speed_boost_timer > 0) {
+        speed_boost_timer -= 1;
+        projectile_spawn_timer -= 1;
+
+        // Spawn a projectile behind the player at regular intervals
+        if (projectile_spawn_timer <= 0) {
+            projectile_spawn_timer = projectile_spawn_rate; // Reset timer
+
+            var _spawn_x = x - (32 * attack_direction); 
+            var _spawn_y = y + 32; 
+            instance_create_layer(_spawn_x, _spawn_y, "Instances", oChicleteraAttack);
+        }
+        
+        // When the timer runs out, restore the player's normal speed
+        if (speed_boost_timer <= 0) {
+            // Restore original speed using your variable
+            speed_ = original_speed_; 
+        }
+    }
+    // Part 2: Logic to START the attack (only if not already boosting)
+    else if (can_attack && key_attack) {
+        can_attack = false;
+        attack_timer = attack_cooldown;
+        audio_play_sound(sfxChicleteraAttack, 1, false);
+
+        // Activate the speed boost timer
+        speed_boost_timer = speed_boost_duration;
+
+        // Store and double the player's speed using your variable
+        original_speed_ = speed_;
+        speed_ *= 3/2; // Double the player's speed
+    }
+
+    // The attack cooldown runs independently
+    attack_counter();
 }
