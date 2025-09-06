@@ -49,7 +49,6 @@ function start_dancing(duration) {
 
 function apply_freeze_effect() {
     is_frozen = true;
-    image_blend = c_aqua;
     stop_movement(); // Use the existing stop_movement() method!
 }
 
