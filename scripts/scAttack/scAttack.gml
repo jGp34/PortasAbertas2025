@@ -1216,3 +1216,69 @@ function espressona_attack() {
     // This handles the cooldown timer for the *initial* shot
     attack_counter();
 }
+
+function footera_attack() {
+    // This state machine manages the attack's different phases.
+    switch (attack_state) {
+        
+        // --- STATE: NORMAL ---
+        case FOOTERA_STATE.NORMAL:
+            // Check to START the attack. Must be on the ground.
+            if (can_attack && key_attack) {
+				audio_play_sound(sfxFooteraAttack1, 1, false);
+                can_attack = false;
+                attack_timer = attack_cooldown;
+                
+                // Change state and begin the super jump
+                attack_state = FOOTERA_STATE.ATTACK_JUMP;
+                vert_speed = -18; // A powerful initial jump speed
+                is_invulnerable = true;
+            }
+            // The regular attack cooldown only runs in the normal state
+            attack_counter();
+            break;
+
+        // --- STATE: ATTACK JUMP ---
+        case FOOTERA_STATE.ATTACK_JUMP:
+            // Kill enemies on contact.
+            var _enemy = instance_place(x, y, oEnemy);
+            if (_enemy != noone) {
+                with (_enemy) { instance_destroy(); }
+            }
+            
+            // Check for conditions to end the jump.
+            var _hit_obstacle = place_meeting(x + horz_speed, y, oObstacle) || place_meeting(x, y + vert_speed, oObstacle);
+            if (key_attack || _hit_obstacle) {
+                attack_state = FOOTERA_STATE.ATTACK_FALL;
+            }
+            break;
+
+        // --- STATE: ATTACK FALL ---
+        case FOOTERA_STATE.ATTACK_FALL:
+            // Override normal gravity with a fast, constant downward speed.
+            vert_speed = 15; 
+            is_invulnerable = true; // Remain invulnerable during the fall
+
+            // Check for landing on the ground.
+            if (place_meeting(x, y + 1, oObstacle)) {
+                // --- THE LANDING ATTACK ---
+                audio_play_sound(sfxFooteraAttack2, 1, false);
+                
+                var _proj_y = y + 48; // Spawn projectiles from the player's center
+                
+                // Create the left projectile
+                instance_create_layer(x, _proj_y, "Instances", oFooteraAttack);
+                
+                // Create the right projectile and set its speed
+                var _proj_right = instance_create_layer(x, _proj_y, "Instances", oFooteraAttack);
+                _proj_right.hspeed *= -1; // Reverse horizontal speed
+                _proj_right.image_xscale *= -1; // Flip sprite
+                
+                // --- RESET EVERYTHING ---
+                attack_state = FOOTERA_STATE.NORMAL;
+                is_invulnerable = false;
+                vert_speed = 0; // Stop all vertical movement
+            }
+            break;
+    }
+}
