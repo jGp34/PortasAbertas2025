@@ -1180,3 +1180,39 @@ function bananita_attack(){
     
     attack_counter();
 }
+
+function espressona_attack() {
+    // Find if there's an existing attack projectile in the room
+    var _attack_instance = instance_find(oEspressonaAttack1, 0);
+
+    // This logic handles both firing a new shot and activating the existing one
+    if (key_attack) {
+        // CASE 1: An attack already exists and is going up. Activate it.
+        if (instance_exists(_attack_instance) && _attack_instance.is_going_up) {
+            // Tell the projectile to change to its second phase
+            _attack_instance.is_going_up = false;
+            
+            // Allow the player to shoot again immediately after activating the shot
+            can_attack = true; 
+            attack_timer = 0;
+        }
+        // CASE 2: No attack exists, and we are ready to fire a new one.
+        else if (can_attack && !instance_exists(_attack_instance)) {
+            can_attack = false;
+            attack_timer = attack_cooldown;
+            // You'll need to create this sound effect
+            audio_play_sound(sfxEspressonaAttack1, 1, false);
+
+            var _attack_x = x;
+            var _attack_y = y - 8; // Spawn slightly above the player's head
+
+            var _new_attack = instance_create_layer(_attack_x, _attack_y, "Instances", oEspressonaAttack1);
+            
+            // Pass the player's facing direction to the projectile
+            _new_attack.initial_direction = attack_direction;
+        }
+    }
+
+    // This handles the cooldown timer for the *initial* shot
+    attack_counter();
+}
