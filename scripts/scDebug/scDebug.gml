@@ -41,14 +41,36 @@ function ManualTransform() {
         _new_inst.vert_speed = 0;
     }
 
-    // --- THE FIX: Nudge the new character out of the floor ---
-    // This prevents getting stuck if the new character's mask is different.
-    with (_new_inst) {
-        while (place_meeting(x, y, oObstacle)) {
-            y -= 1; // Move up one pixel at a time until free
-        }
-    }
+	// --- THE FIX v2: Separate nudging for floors and walls ---
+	with (_new_inst) {
+	    // Step 1: Attempt a LIMITED vertical nudge for floors.
+	    // This tries to push you out of the floor, but gives up after 8 pixels
+	    // to prevent the teleporting bug if you're actually in a wall.
+	    var _vert_attempts = 0;
+	    while (place_meeting(x, y, oObstacle) && _vert_attempts < 8) {
+	        y -= 1;
+	        _vert_attempts++;
+	    }
 
+	    // Step 2: If still stuck, perform a smarter horizontal nudge for walls.
+	    // This only runs if the vertical nudge didn't fully solve the collision.
+	    var _horz_attempts = 0;
+	    while (place_meeting(x, y, oObstacle) && _horz_attempts < 64) {
+	        // Check for a free space to the left and move there.
+	        if (!place_meeting(x - 1, y, oObstacle)) {
+	            x -= 1;
+	        }
+	        // Otherwise, check for a free space to the right and move there.
+	        else if (!place_meeting(x + 1, y, oObstacle)) {
+	            x += 1;
+	        }
+	        // If boxed in on all sides, break to prevent the game from freezing.
+	        else {
+	            break;
+	        }
+	        _horz_attempts++;
+	    }
+	}
     // Now, destroy the old player instance
     instance_destroy();
 

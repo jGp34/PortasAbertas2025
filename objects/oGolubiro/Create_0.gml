@@ -1,6 +1,6 @@
 event_inherited();
 audio_play_sound(sfxGolubiro, 1, false);
-attack_cooldown = 0.8 * game_get_speed(gamespeed_fps);
+attack_cooldown = 0.7 * game_get_speed(gamespeed_fps);
 
 enum COMBO_ATTACK_MODE {
     STUN_CONE,

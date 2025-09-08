@@ -6,13 +6,9 @@ if (last_spawn > 10) {
 		last_spawn = 0;
 		spawn_timer = 0;
 		var roll = random(1);
-		if (roll < 0.1) {
+		if (roll < 0.4) {
 			var big = instance_create_layer(x, y, "Instances", oBigGroundEnemy);
 			big.is_enraged = false;
-		}
-		else if (roll < 0.3) {
-			var floaty = instance_create_layer(x, y, "Instances", oFloatingEnemy);
-			floaty.is_enraged = false;
 		}
 		else {
 			var normal_enemy = instance_create_layer(x, y, "Instances", oGroundEnemy);
@@ -25,13 +21,6 @@ if (last_spawn > 10) {
 		last_spawn = 0;
 
 		var angry_enemy = instance_create_layer(x, y, "Instances", oGroundEnemy, {is_enraged: true});
-		angry_enemy.is_enraged = true;
-	}
-	else if (global.enraged_floating_enemy_queue > 0) {
-		global.enraged_floating_enemy_queue--;
-		last_spawn = 0;
-
-		var angry_enemy = instance_create_layer(x, y, "Instances", oFloatingEnemy, {is_enraged: true});
 		angry_enemy.is_enraged = true;
 	}
 	else if (global.enraged_big_ground_enemy_queue > 0) {

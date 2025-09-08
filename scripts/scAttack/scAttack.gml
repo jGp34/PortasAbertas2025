@@ -660,86 +660,79 @@ function tric_attack() {
     // State machine for Tric's minigun attack
     switch (tric_state) {
         
-        // --- STATE 1: Ready to Fire ---
+        // --- STATE 1: Ready to Fire (No changes here) ---
         case TRIC_STATE.READY:
-            // Check if we can start a new attack
             if (can_attack && key_attack) {
-                // Start the cooldown timer immediately
                 can_attack = false;
                 attack_timer = attack_cooldown;
                 
-                // Play wind-up sound
                 audio_play_sound(sfxTricAttack2, 1, false);
                 
-                // Set timer for the wind-up phase and switch state
                 tric_timer = TRIC_WINDUP_TIME;
                 tric_state = TRIC_STATE.WINDUP;
                 
-                // Root the player in place during wind-up (the risk!)
                 hspeed = 0;
             }
             break;
 
-        // --- STATE 2: Winding Up ---
+        // --- STATE 2: Winding Up (No changes here) ---
         case TRIC_STATE.WINDUP:
-            // The player is stuck in place here
             hspeed = 0;
             
-            // Countdown the wind-up timer
             tric_timer--;
             if (tric_timer <= 0) {
-                // Wind-up is over, start firing
                 tric_shots_fired = 0;
-                tric_timer = TRIC_SHOT_INTERVAL; // Set timer for the first shot
+                tric_timer = TRIC_SHOT_INTERVAL;
                 tric_state = TRIC_STATE.FIRING;
             }
             break;
             
-        // --- STATE 3: Firing the Barrage ---
+        // --- STATE 3: Firing the Barrage (Modified) ---
         case TRIC_STATE.FIRING:
-            // Apply constant recoil (the consequence!)
-			var _recoil_move = TRIC_RECOIL_STRENGTH * attack_direction;
+            // --- NEW: EARLY CANCEL LOGIC ---
+            // If the player taps the attack key again, cancel the barrage.
+            if (key_attack) {
+                // Return to the ready state immediately.
+                // The main attack_timer continues running in the background.
+                tric_state = TRIC_STATE.READY;
+                break; // Exit the switch case for this frame.
+            }
 
-			// Check if the spot we want to move to is free BEFORE moving!
-			if (!place_meeting(x - _recoil_move, y, oObstacle)) {
-			    x -= _recoil_move;
-			}
+            // Apply constant recoil
+            var _recoil_move = TRIC_RECOIL_STRENGTH * attack_direction;
+            if (!place_meeting(x - _recoil_move, y, oObstacle)) {
+                x -= _recoil_move;
+            }
             
             // Countdown timer for the next shot
             tric_timer--;
             if (tric_timer <= 0) {
-                // Time to fire a bullet
                 audio_play_sound(sfxTricAttack1, 1, false);
                 
-                // Calculate bullet spawn position
                 var _attack_offset = 40;
                 var _attack_x = x + (_attack_offset * attack_direction);
                 var _attack_y = y + 24;
                 
-                // Calculate direction with random spread
                 var _base_dir = (attack_direction == 1) ? 0 : 180;
                 var _spread = random_range(-TRIC_BULLET_SPREAD / 2, TRIC_BULLET_SPREAD / 2);
                 var _bullet_dir = _base_dir + _spread;
                 
-                // Create the bullet
                 var _bullet = instance_create_layer(_attack_x, _attack_y, "Instances", oTricAttack);
-                _bullet.speed = 12; // Or whatever speed you like
+                _bullet.speed = 12;
                 _bullet.direction = _bullet_dir;
                 
-                // Increment shot counter and reset timer
                 tric_shots_fired++;
                 tric_timer = TRIC_SHOT_INTERVAL;
                 
                 // Check if the barrage is finished
                 if (tric_shots_fired >= TRIC_SHOTS_PER_BARRAGE) {
-                    // Barrage over, return to ready state
                     tric_state = TRIC_STATE.READY;
                 }
             }
             break;
     }
     
-    // The main attack cooldown runs independently of the states
+    // The main attack cooldown runs independently
     attack_counter();
 }
 
@@ -1182,34 +1175,45 @@ function bananita_attack(){
 }
 
 function espressona_attack() {
-    // Find if there's an existing attack projectile in the room
-    var _attack_instance = instance_find(oEspressonaAttack1, 0);
-
     // This logic handles both firing a new shot and activating the existing one
     if (key_attack) {
-        // CASE 1: An attack already exists and is going up. Activate it.
-        if (instance_exists(_attack_instance) && _attack_instance.is_going_up) {
-            // Tell the projectile to change to its second phase
-            _attack_instance.is_going_up = false;
+        // --- NEW: Find the specific attack that is going up ---
+        var _up_attack = noone;
+        with (oEspressonaAttack1) {
+            if (is_going_up) {
+                _up_attack = id;
+                break; // Found the one we need, stop searching
+            }
+        }
+
+        // CASE 1: An "up" attack was found. Activate it.
+        if (_up_attack != noone) {
+            // Tell that specific projectile to change to its second phase
+            _up_attack.is_going_up = false;
             
-            // Allow the player to shoot again immediately after activating the shot
+            // Allow the player to shoot again immediately
             can_attack = true; 
             attack_timer = 0;
         }
-        // CASE 2: No attack exists, and we are ready to fire a new one.
-        else if (can_attack && !instance_exists(_attack_instance)) {
+        // CASE 2: No "up" attack exists, and we are ready to fire a new one.
+        else if (can_attack) {
             can_attack = false;
             attack_timer = attack_cooldown;
-            // You'll need to create this sound effect
             audio_play_sound(sfxEspressonaAttack1, 1, false);
 
             var _attack_x = x;
-            var _attack_y = y - 8; // Spawn slightly above the player's head
+            var _attack_y = y - 8;
 
             var _new_attack = instance_create_layer(_attack_x, _attack_y, "Instances", oEspressonaAttack1);
             
-            // Pass the player's facing direction to the projectile
             _new_attack.initial_direction = attack_direction;
+            _new_attack.image_xscale = -attack_direction;
+            
+            var _nudge_attempts = 0;
+            while (place_meeting(_new_attack.x, _new_attack.y, oObstacle) && _nudge_attempts < 32) {
+                _new_attack.y += 1;
+                _nudge_attempts++;
+            }
         }
     }
 

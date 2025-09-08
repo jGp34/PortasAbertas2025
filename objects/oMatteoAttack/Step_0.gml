@@ -2,7 +2,7 @@
 
 if (is_retracting) {
     // --- RETRACTING MODE (Unchanged) ---
-    var _retract_speed = 12;
+    var _retract_speed = 18;
     move_towards_point(owner.x, owner.y, _retract_speed);
         
     if (point_distance(x, y, owner.x, owner.y) < _retract_speed) {

@@ -1,6 +1,6 @@
 event_inherited();
 audio_play_sound(sfxChicletera, 1, false);
-attack_cooldown = 3.0 * game_get_speed(gamespeed_fps);
+attack_cooldown = 2.75 * game_get_speed(gamespeed_fps);
 
 // Add these variables to your player's Create Event
 

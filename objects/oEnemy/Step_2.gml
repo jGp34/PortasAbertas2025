@@ -12,6 +12,10 @@ if (is_poisoned) {
     array_push(_colors_to_blend, c_lime);
 }
 
+if (is_enraged) {
+    array_push(_colors_to_blend, c_red);
+}
+
 // --- The blending calculation remains the same ---
 var _effect_count = array_length(_colors_to_blend);
 
@@ -31,5 +35,5 @@ if (_effect_count > 0) {
 
 } else {
     // If no effects are active, reset to normal
-    image_blend = c_white;
+    image_blend = is_enraged ? c_red : c_white;
 }

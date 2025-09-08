@@ -10,7 +10,7 @@ enum ENEMY_STATE {
 state = ENEMY_STATE.FLOATING;
 
 // --- Floating-specific Properties ---
-speed_ = 3;
+speed_ = is_enraged ? 6 : 3;
 OG_SPEED = speed_;
 gravity_ = 0.5;
 

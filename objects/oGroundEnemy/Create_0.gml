@@ -2,9 +2,9 @@
 event_inherited();
 
 // --- Ground-specific Properties ---
-speed_ = 4;
+speed_ = is_enraged ? 8 : 4;
 OG_SPEED = speed_;
-grav = 0.5;
+grav = is_enraged ? 0.75 :  0.5;
 move = choose(-1, 1);
 vspd = 0; // <-- ADD THIS LINE
 
