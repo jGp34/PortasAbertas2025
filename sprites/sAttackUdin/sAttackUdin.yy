@@ -1,9 +1,9 @@
 {
   "$GMSprite":"",
   "%Name":"sAttackUdin",
-  "bboxMode":0,
+  "bboxMode":2,
   "bbox_bottom":13,
-  "bbox_left":18,
+  "bbox_left":3,
   "bbox_right":115,
   "bbox_top":1,
   "collisionKind":1,
